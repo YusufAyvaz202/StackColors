@@ -59,6 +59,18 @@ namespace Managers
             _playerScore++;
         }
         
+        public void GameWin()
+        {
+            ChangeGameState(GameState.Win);
+            winLoseUI.OnGameWin();
+        }
+        
+        public void GameOver()
+        {
+            ChangeGameState(GameState.GameOver);
+            winLoseUI.OnGameOver();
+        }
+        
         #region Helper Methods
 
         public GameState GetCurrentGameState()
@@ -69,20 +81,6 @@ namespace Managers
         public int GetPlayerScore()
         {
             return _playerScore;
-        }
-        
-        [ContextMenu("Game Win")]
-        public void GameWin()
-        {
-            ChangeGameState(GameState.Win);
-            winLoseUI.OnGameWin();
-        }
-        
-        [ContextMenu("Game Over")]
-        public void GameOver()
-        {
-            ChangeGameState(GameState.GameOver);
-            winLoseUI.OnGameOver();
         }
         
         #endregion

@@ -76,16 +76,16 @@ namespace Player
             
             if (_currentColorType == colorType)
             {
-                CorrectCollectCollectible();
+                CorrectCollectibleCollected();
                 EventManager.OnCorrectCollectibleCollected?.Invoke();
             }
             else
             {
-                DropCollectible();
+                WrongCollectCollectible();
             }
         }
 
-        private void CorrectCollectCollectible()
+        private void CorrectCollectibleCollected()
         {
             _selectedItem.transform.SetParent(_playerPlateTransform);
             _scaleMultiplier *= (_selectedItem.transform.localScale.y + _collectedItems[^1].transform.localScale.y) / 2;
@@ -95,10 +95,10 @@ namespace Player
 
             _scaleMultiplier = 1f;
             
-            _playerMovementController.IncreaseForwardSpeed(1f);
+            _playerMovementController.IncreaseForwardSpeed(.25f);
         }
         
-        private void DropCollectible()
+        private void WrongCollectCollectible()
         {
             if (_collectedItems.Count <= 1)
             {
