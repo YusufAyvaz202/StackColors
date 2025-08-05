@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Interface;
+using Managers;
 using Misc;
 using UnityEngine;
 
@@ -29,7 +30,7 @@ namespace Player
 
         private void OnTriggerEnter(Collider other)
         {
-            
+            if(GameManager.Instance.GetCurrentGameState() != GameState.Playing) return;
             if(_selectedItem == other.gameObject) return;
             
             if (other.TryGetComponent(out ICollectible collectible))

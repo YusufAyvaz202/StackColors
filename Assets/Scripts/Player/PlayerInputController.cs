@@ -1,3 +1,4 @@
+using Managers;
 using Misc;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -23,6 +24,7 @@ namespace Player
     
         private void MoveActionOnStarted(InputAction.CallbackContext context)
         {
+            if (GameManager.Instance.GetCurrentGameState() != GameState.Playing) return;
             _moveInput = context.ReadValue<Vector2>();
         }
 

@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Managers;
+using Misc;
+using UnityEngine;
 
 namespace Player
 {
@@ -32,6 +34,8 @@ namespace Player
 
         private void Move()
         {
+            if (GameManager.Instance.GetCurrentGameState() != GameState.Playing) return;   
+            
             Vector2 moveInput = _playerInputController.MoveInput;
             Vector3 movementDirection = new Vector3(moveInput.x * _horizontalSpeed, 0, _forwardSpeed);
             _rigidbody.MovePosition(_rigidbody.position + movementDirection * Time.fixedDeltaTime);
