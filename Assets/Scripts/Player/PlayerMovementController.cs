@@ -13,6 +13,11 @@ namespace Player
         [SerializeField] private float _horizontalSpeed= 5f;
         [SerializeField] private float _forwardSpeed = 5f;
 
+        /// <summary>
+        /// Unity lifecycle methods for initialization and updates.
+        /// </summary>
+        #region Unity Methods
+
         private void Awake()
         {
             GetComponents();
@@ -22,6 +27,8 @@ namespace Player
         {
             Move();
         }
+
+        #endregion
 
         private void Move()
         {

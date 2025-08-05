@@ -15,6 +15,12 @@ namespace Player
         private List<GameObject> _collectedItems;
         private GameObject _selectedItem;
         private ColorType _currentColorType;
+        private bool _isFirstPick = true;
+
+        /// <summary>
+        /// Awake, Start, Update, and other Unity lifecycle methods.
+        /// </summary>
+        #region Unity Methods
 
         private void Awake()
         {
@@ -23,6 +29,7 @@ namespace Player
 
         private void OnTriggerEnter(Collider other)
         {
+            
             if(_selectedItem == other.gameObject) return;
             
             if (other.TryGetComponent(out ICollectible collectible))
@@ -32,9 +39,19 @@ namespace Player
             }
         }
 
+        #endregion
+
         private void OnCollectibleCollected(ColorType colorType)
         {
             Debug.Log($"Collected Color: {colorType}");
+
+            // If this is the first collectible, set the current color type
+            if (_isFirstPick)
+            {
+                _currentColorType = colorType;
+                _isFirstPick = false;
+            }
+            
             if (_currentColorType == colorType)
             {
                 CollectCollectible();
