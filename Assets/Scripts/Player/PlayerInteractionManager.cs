@@ -1,4 +1,5 @@
-﻿using Interface;
+﻿using System.Collections.Generic;
+using Interface;
 using Misc;
 using UnityEngine;
 
@@ -6,28 +7,41 @@ namespace Player
 {
     public class PlayerInteractionManager : MonoBehaviour
     {
-        private void OnTriggerEnter(Collider other)
+        [Header("References")] 
+        [SerializeField] private Transform _playerPlateTransform;
+
+        [Header("Settings")] 
+        private List<GameObject> _collectedItems;
+        private GameObject _selectedItem;
+        private ColorType _currentColorType;
+
+        private void Awake()
         {
+            _collectedItems = new List<GameObject> { _playerPlateTransform.gameObject };
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {   
             if (other.TryGetComponent(out ICollectible collectible))
             {
+                _selectedItem = other.gameObject;
                 collectible.Collect(OnCollectibleCollected);
             }
         }
 
         private void OnCollectibleCollected(ColorType colorType)
         {
-            // Handle the collected color type, e.g., update UI, play sound, etc.
             Debug.Log($"Collected Color: {colorType}");
-            switch (colorType)
+            if (_currentColorType == colorType)
             {
-                case ColorType.Blue:
-                    break;
-                case ColorType.Green:
-                    break;  
-                case ColorType.Red:
-                    break;
-                case ColorType.Yellow:
-                    break;
+                _selectedItem.transform.SetParent(_playerPlateTransform);
+                
+                _selectedItem.transform.localPosition = new Vector3(0, _collectedItems[^1].transform.localPosition.y + 10f, 0);
+                _collectedItems.Add(_selectedItem);
+            }
+            else
+            {
+                _collectedItems.RemoveAt(_collectedItems.Count);
             }
         }
     }
