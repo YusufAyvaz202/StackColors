@@ -1,4 +1,5 @@
-﻿using Misc;
+﻿using System;
+using Misc;
 using UnityEngine;
 
 namespace Managers
@@ -10,6 +11,7 @@ namespace Managers
 
         [Header("Game Settings")]
         private GameState _currentGameState;
+        private int _playerScore;
         
         /// <summary>
         /// Unity lifecycle methods for initialization and cleanup.
@@ -27,11 +29,18 @@ namespace Managers
                 Destroy(gameObject);
             }
             DontDestroyOnLoad(gameObject);
+            
+            EventManager.OnCorrectCollectibleCollected += OnCorrectCollectibleCollected;
         }
 
         private void Start()
         {
             ChangeGameState(GameState.Playing);
+        }
+
+        private void OnDisable()
+        {
+            EventManager.OnCorrectCollectibleCollected -= OnCorrectCollectibleCollected;
         }
 
         #endregion
@@ -41,12 +50,21 @@ namespace Managers
             _currentGameState = newState;
         }
 
-
+        private void OnCorrectCollectibleCollected()
+        {
+            _playerScore++;
+        }
+        
         #region Helper Methods
 
         public GameState GetCurrentGameState()
         {
             return _currentGameState;
+        }
+
+        public int GetPlayerScore()
+        {
+            return _playerScore;
         }
         
         #endregion

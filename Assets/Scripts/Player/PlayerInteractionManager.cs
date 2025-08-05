@@ -55,7 +55,8 @@ namespace Player
             
             if (_currentColorType == colorType)
             {
-                CollectCollectible();
+                CorrectCollectCollectible();
+                EventManager.OnCorrectCollectibleCollected?.Invoke();
             }
             else
             {
@@ -63,7 +64,7 @@ namespace Player
             }
         }
 
-        private void CollectCollectible()
+        private void CorrectCollectCollectible()
         {
             _selectedItem.transform.SetParent(_playerPlateTransform);
             _scaleMultiplier *= (_selectedItem.transform.localScale.y + _collectedItems[^1].transform.localScale.y) / 2;
