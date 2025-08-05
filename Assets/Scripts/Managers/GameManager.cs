@@ -1,5 +1,5 @@
-﻿using System;
-using Misc;
+﻿using Misc;
+using UI;
 using UnityEngine;
 
 namespace Managers
@@ -8,6 +8,9 @@ namespace Managers
     {
         [Header("Singleton Instance")]
         public static GameManager Instance;
+        
+        [Header("References")]
+        [SerializeField] private WinLoseUI winLoseUI;
 
         [Header("Game Settings")]
         private GameState _currentGameState;
@@ -48,6 +51,7 @@ namespace Managers
         public void ChangeGameState(GameState newState)
         {
             _currentGameState = newState;
+            EventManager.OnGameStateChanged?.Invoke(newState);
         }
 
         private void OnCorrectCollectibleCollected()
@@ -65,6 +69,20 @@ namespace Managers
         public int GetPlayerScore()
         {
             return _playerScore;
+        }
+        
+        [ContextMenu("Game Win")]
+        public void GameWin()
+        {
+            ChangeGameState(GameState.Win);
+            winLoseUI.OnGameWin();
+        }
+        
+        [ContextMenu("Game Over")]
+        public void GameOver()
+        {
+            ChangeGameState(GameState.GameOver);
+            winLoseUI.OnGameOver();
         }
         
         #endregion

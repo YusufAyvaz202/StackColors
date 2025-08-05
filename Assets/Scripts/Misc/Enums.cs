@@ -14,5 +14,6 @@
         Playing,
         Paused,
         GameOver,
+        Win,
     }
 }
