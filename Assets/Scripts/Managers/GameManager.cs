@@ -36,7 +36,7 @@ namespace Managers
 
         #endregion
 
-        private void ChangeGameState(GameState newState)
+        public void ChangeGameState(GameState newState)
         {
             _currentGameState = newState;
         }
@@ -48,7 +48,7 @@ namespace Managers
         {
             return _currentGameState;
         }
-
+        
         #endregion
         
     }

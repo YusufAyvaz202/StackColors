@@ -76,6 +76,13 @@ namespace Player
         
         private void DropCollectible()
         {
+            if (_collectedItems.Count <= 1)
+            {
+                Debug.Log("No items to drop. YOU LOSE");
+                GameManager.Instance.ChangeGameState(GameState.GameOver);
+                return;
+            }
+            
             var collectible = _collectedItems[^1];
                 
             collectible.transform.SetParent(null);
