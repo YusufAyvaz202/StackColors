@@ -102,8 +102,8 @@ namespace Player
         {
             if (_collectedItems.Count <= 1)
             {
-                Debug.Log("No items to drop. YOU LOSE");
                 GameManager.Instance.ChangeGameState(GameState.GameOver);
+                GameManager.Instance.GameOver();
                 return;
             }
             
