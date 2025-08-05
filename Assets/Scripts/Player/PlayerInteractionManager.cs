@@ -9,7 +9,8 @@ namespace Player
     {
         [Header("References")] 
         [SerializeField] private Transform _playerPlateTransform;
-
+        [SerializeField] private float _scaleMultiplier = 1f;
+        
         [Header("Settings")] 
         private List<GameObject> _collectedItems;
         private GameObject _selectedItem;
@@ -21,7 +22,9 @@ namespace Player
         }
 
         private void OnTriggerEnter(Collider other)
-        {   
+        {
+            if(_selectedItem == other.gameObject) return;
+            
             if (other.TryGetComponent(out ICollectible collectible))
             {
                 _selectedItem = other.gameObject;
@@ -34,15 +37,32 @@ namespace Player
             Debug.Log($"Collected Color: {colorType}");
             if (_currentColorType == colorType)
             {
-                _selectedItem.transform.SetParent(_playerPlateTransform);
-                
-                _selectedItem.transform.localPosition = new Vector3(0, _collectedItems[^1].transform.localPosition.y + 10f, 0);
-                _collectedItems.Add(_selectedItem);
+                CollectCollectible();
             }
             else
             {
-                _collectedItems.RemoveAt(_collectedItems.Count);
+                DropCollectible();
             }
+        }
+
+        private void CollectCollectible()
+        {
+            _selectedItem.transform.SetParent(_playerPlateTransform);
+            _scaleMultiplier *= (_selectedItem.transform.localScale.y + _collectedItems[^1].transform.localScale.y) / 2;
+                
+            _selectedItem.transform.localPosition = new Vector3(0, _collectedItems[^1].transform.localPosition.y + _scaleMultiplier, 0);
+            _collectedItems.Add(_selectedItem);
+
+            _scaleMultiplier = 1f;
+        }
+        
+        private void DropCollectible()
+        {
+            var collectible = _collectedItems[^1];
+                
+            collectible.transform.SetParent(null);
+            _collectedItems.Remove(collectible);
+            Destroy(collectible.gameObject);
         }
     }
 }

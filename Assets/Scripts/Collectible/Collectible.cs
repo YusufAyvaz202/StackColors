@@ -7,8 +7,6 @@ namespace Collectible
 {
     public class Collectible : MonoBehaviour, ICollectible
     {
-        [Header("References")]
-        
         [Header("Settings")]
         [SerializeField] private ColorType _colorType;
         [SerializeField] private Color _colorMaterial;
