@@ -38,7 +38,7 @@ namespace Managers
 
         private void Start()
         {
-            ChangeGameState(GameState.Playing);
+            ChangeGameState(GameState.Waiting);
         }
 
         private void OnDisable()

@@ -11,6 +11,7 @@
     public enum GameState
     {
         MainMenu,
+        Waiting,
         Playing,
         Paused,
         GameOver,
