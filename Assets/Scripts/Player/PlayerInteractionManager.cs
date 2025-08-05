@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ColorGates;
 using Interface;
 using Managers;
 using Misc;
@@ -9,6 +10,7 @@ namespace Player
     public class PlayerInteractionManager : MonoBehaviour
     {
         [Header("References")] 
+        private PlayerMovementController _playerMovementController;
         [SerializeField] private Transform _playerPlateTransform;
         [SerializeField] private float _scaleMultiplier = 1f;
         
@@ -26,6 +28,7 @@ namespace Player
         private void Awake()
         {
             _collectedItems = new List<GameObject> { _playerPlateTransform.gameObject };
+            _playerMovementController = GetComponent<PlayerMovementController>();
         }
 
         private void OnTriggerEnter(Collider other)
@@ -38,9 +41,27 @@ namespace Player
                 _selectedItem = other.gameObject;
                 collectible.Collect(OnCollectibleCollected);
             }
+            else if (other.TryGetComponent(out ColorGate colorGate))
+            {
+                SetColorCollectedItems(colorGate.GetColorMaterial());
+                _currentColorType = colorGate.GetColorType();
+            }
         }
 
         #endregion
+        
+        private void SetColorCollectedItems(Material color)
+        {
+            if (_collectedItems.Count <= 1) return;
+
+            foreach (var item in _collectedItems)
+            {
+                if (item.TryGetComponent(out MeshRenderer meshRenderer))
+                {
+                    meshRenderer.material = color;
+                }
+            }
+        }
 
         private void OnCollectibleCollected(ColorType colorType)
         {
@@ -73,6 +94,8 @@ namespace Player
             _collectedItems.Add(_selectedItem);
 
             _scaleMultiplier = 1f;
+            
+            _playerMovementController.IncreaseForwardSpeed(1f);
         }
         
         private void DropCollectible()
@@ -89,6 +112,8 @@ namespace Player
             collectible.transform.SetParent(null);
             _collectedItems.Remove(collectible);
             Destroy(collectible.gameObject);
+            
+            _playerMovementController.ResetForwardSpeed();
         }
     }
 }

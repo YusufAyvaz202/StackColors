@@ -9,11 +9,11 @@ namespace Collectible
     {
         [Header("Settings")]
         [SerializeField] private ColorType _colorType;
-        [SerializeField] private Color _colorMaterial;
+        [SerializeField] private Material _colorMaterial;
 
         private void Awake()
         {
-            GetComponent<MeshRenderer>().material.color = _colorMaterial;
+            GetComponent<MeshRenderer>().material = _colorMaterial;
         }
 
         public void Collect(Action<ColorType> onCollected)
