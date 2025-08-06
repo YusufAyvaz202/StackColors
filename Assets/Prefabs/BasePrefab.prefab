@@ -4704,18 +4704,18 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 972233283628732278}
-  - {fileID: 3746023387289698661}
-  - {fileID: 7107757821729115928}
-  - {fileID: 4480021908182939426}
-  - {fileID: 2634856697807063203}
+  - {fileID: 1404737472777987501}
   - {fileID: 7922118460008775691}
+  - {fileID: 2634856697807063203}
   - {fileID: 2650738762750113436}
   - {fileID: 6372885583989206047}
-  - {fileID: 1404737472777987501}
-  - {fileID: 1297411499524242114}
-  - {fileID: 3363999557560422107}
+  - {fileID: 3746023387289698661}
   - {fileID: 7484285544839114542}
+  - {fileID: 4480021908182939426}
+  - {fileID: 3363999557560422107}
+  - {fileID: 1297411499524242114}
+  - {fileID: 7107757821729115928}
+  - {fileID: 972233283628732278}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8251428082578848721
@@ -5222,7 +5222,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ab50b89bd704d98a21744e63cb9ef84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  totalBonus: 0
 --- !u!1 &8842446071412077903
 GameObject:
   m_ObjectHideFlags: 0
