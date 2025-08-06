@@ -1,4 +1,5 @@
 ﻿using Misc;
+using Player;
 using UI;
 using UnityEngine;
 
@@ -8,13 +9,15 @@ namespace Managers
     {
         [Header("Singleton Instance")]
         public static GameManager Instance;
-        
-        [Header("References")]
-        [SerializeField] private WinLoseUI winLoseUI;
+
+        [Header("References")] 
+        [SerializeField] private PlayerBonusController _playerBonusController;
+        [SerializeField] private WinLoseUI _winLoseUI;
+        [SerializeField] private BonusUI _bonusUI;
 
         [Header("Game Settings")]
         private GameState _currentGameState;
-        private int _playerScore;
+        private float _playerScore;
         
         /// <summary>
         /// Unity lifecycle methods for initialization and cleanup.
@@ -52,6 +55,24 @@ namespace Managers
         {
             _currentGameState = newState;
             EventManager.OnGameStateChanged?.Invoke(newState);
+            
+            CheckStates();
+        }
+
+        private void CheckStates()
+        {
+            switch (_currentGameState)
+            {
+                case GameState.BonusCalculation:
+                    CalculateBonus();
+                    break;
+                case GameState.Win:
+                    GameWin();  
+                    break;
+                case GameState.GameOver:
+                    GameOver();
+                    break;
+            }
         }
 
         private void OnCorrectCollectibleCollected()
@@ -59,16 +80,26 @@ namespace Managers
             _playerScore++;
         }
         
-        public void GameWin()
+        private void CalculateBonus()
         {
-            ChangeGameState(GameState.Win);
-            winLoseUI.OnGameWin();
+            if (_currentGameState != GameState.BonusCalculation) return;
+            _playerScore *= _playerBonusController.GetTotalBonus();
+            
+            // This event for update the score UI.
+            EventManager.OnCorrectCollectibleCollected?.Invoke();
+            Debug.Log("Player Score after Bonus Calculation: " + _playerScore);
         }
         
-        public void GameOver()
+        private void GameWin()
+        {
+            ChangeGameState(GameState.Win);
+            _winLoseUI.OnGameWin();
+        }
+        
+        private void GameOver()
         {
             ChangeGameState(GameState.GameOver);
-            winLoseUI.OnGameOver();
+            _winLoseUI.OnGameOver();
         }
         
         #region Helper Methods
@@ -80,7 +111,17 @@ namespace Managers
 
         public int GetPlayerScore()
         {
-            return _playerScore;
+            return (int)_playerScore;
+        }
+
+        public void SetActiveBonusUI()
+        {
+            _bonusUI.gameObject.SetActive(true);
+        }
+        
+        public void UpdateBonusSliderValue(float value)
+        {
+            _bonusUI.UpdateBonusSlider(value);
         }
         
         #endregion

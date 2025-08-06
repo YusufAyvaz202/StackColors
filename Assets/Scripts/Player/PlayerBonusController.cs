@@ -25,6 +25,7 @@ namespace Player
         {
             totalBonus -= Time.fixedDeltaTime;
             totalBonus = Mathf.Clamp(totalBonus, 0f, 5f);
+            GameManager.Instance.UpdateBonusSliderValue(totalBonus);
         }
 
         #endregion
@@ -34,5 +35,14 @@ namespace Player
             if(GameManager.Instance.GetCurrentGameState() != GameState.Playing) return;
             totalBonus += 0.2f;
         }
+
+        #region Helper Methods
+
+        public float GetTotalBonus()
+        {
+            return totalBonus;
+        }
+
+        #endregion
     }
 }

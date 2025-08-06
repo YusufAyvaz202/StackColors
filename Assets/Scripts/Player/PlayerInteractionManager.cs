@@ -59,6 +59,12 @@ namespace Player
             else if (other.CompareTag(Conts.Tags.KICK_START))
             {
                 _playerBonusController.enabled = true;
+                GameManager.Instance.SetActiveBonusUI();
+            }
+            else if (other.CompareTag(Conts.Tags.KICK_END))
+            {
+                GameManager.Instance.ChangeGameState(GameState.BonusCalculation);
+                _playerBonusController.enabled = false;
             }
         }
         
@@ -77,8 +83,6 @@ namespace Player
 
         private void OnCollectibleCollected(ColorType colorType)
         {
-            Debug.Log($"Collected Color: {colorType}");
-
             // If this is the first collectible, set the current color type
             if (_isFirstPick)
             {
@@ -115,7 +119,6 @@ namespace Player
             if (_collectedItems.Count <= 1)
             {
                 GameManager.Instance.ChangeGameState(GameState.GameOver);
-                GameManager.Instance.GameOver();
                 return;
             }
             

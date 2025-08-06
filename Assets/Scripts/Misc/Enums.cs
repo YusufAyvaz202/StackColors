@@ -14,6 +14,7 @@
         Waiting,
         Playing,
         Paused,
+        BonusCalculation,
         GameOver,
         Win,
     }
