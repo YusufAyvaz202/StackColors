@@ -101,6 +101,17 @@
                     "action": "Bonus",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "98763ee8-7e6d-45a7-b989-0690db556c33",
+                    "path": "<Touchscreen>/Press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Bonus",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

@@ -1,4 +1,5 @@
 ﻿using DG.Tweening;
+using Managers;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,8 @@ namespace UI
         [SerializeField] private GameObject _blackBackgroundObject;
         [SerializeField] private GameObject _winPopup;
         [SerializeField] private GameObject _losePopup;
+        [SerializeField] private Button _restartButton;
+        [SerializeField] private Button _nextLevelButton;
 
         [Header("Settings")]
         [SerializeField] private float _animationDuration = 0.3f;
@@ -22,7 +25,10 @@ namespace UI
         {
             _blackBackgroundImage = _blackBackgroundObject.GetComponent<Image>();
             _winPopupTransform = _winPopup.GetComponent<RectTransform>();
-            _losePopupTransform = _losePopup.GetComponent<RectTransform>();    
+            _losePopupTransform = _losePopup.GetComponent<RectTransform>();
+            
+            _restartButton.onClick.AddListener(() => SceneManage.Instance.RestartCurrentScene());
+            _nextLevelButton.onClick.AddListener(() => SceneManage.Instance.LoadNextScene());
         }
 
         public void OnGameOver()
