@@ -7,18 +7,18 @@ namespace Player
     public class PlayerBonusController : MonoBehaviour
     {
         [Header("Settings")]
-        public float totalBonus;
+        private float totalBonus;
         
         #region Unity Methods
 
         private void OnEnable()
         {
-            EventManager.OnBonusActionPerformed += GetBonus;
+            EventManager.OnBonusActionPerformed += IncreaseBonus;
         }
         
         private void OnDisable()
         {
-            EventManager.OnBonusActionPerformed -= GetBonus;
+            EventManager.OnBonusActionPerformed -= IncreaseBonus;
         }
 
         private void FixedUpdate()
@@ -30,7 +30,7 @@ namespace Player
 
         #endregion
         
-        private void GetBonus()
+        private void IncreaseBonus()
         {
             if(GameManager.Instance.GetCurrentGameState() != GameState.Playing) return;
             totalBonus += 0.2f;

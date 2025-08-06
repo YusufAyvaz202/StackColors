@@ -5,9 +5,12 @@ namespace Managers
 {
     public class SceneManage : MonoBehaviour
     {
-        public static SceneManage Instance;
-        private int _currentSceneIndex;
+        [Header("References")]
         [SerializeField] private GameObject BaseScenePrefab;
+        public static SceneManage Instance;
+        
+        [Header("Settings")]
+        private int _currentSceneIndex;
 
         #region Unity Methods
 
@@ -39,15 +42,15 @@ namespace Managers
             if(nextSceneIndex >= SceneManager.sceneCountInBuildSettings)
             {
                 Debug.LogWarning("No more scenes to load. Returning to the first scene.");
-                nextSceneIndex = 1; // Loop back to the first scene
+                nextSceneIndex = 1; 
             }
             
             SceneManager.LoadScene(nextSceneIndex, LoadSceneMode.Single);
         }
 
-        private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
+        private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
         {
-            if (arg0.buildIndex == 0) return;
+            if (scene.buildIndex == 0) return;
             Instantiate(BaseScenePrefab);
         }
 

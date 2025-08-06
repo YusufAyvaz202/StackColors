@@ -55,6 +55,11 @@ namespace Player
             _currentForwardSpeed = baseForwardSpeed;
         }
         
+        public void DisableHorizontalMovement()
+        {
+            _horizontalSpeed = 0f;
+        }
+        
         #endregion
 
         #region Initialize & Cleanup

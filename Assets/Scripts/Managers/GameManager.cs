@@ -54,8 +54,6 @@ namespace Managers
                 Destroy(gameObject);
             }
 
-            //DontDestroyOnLoad(gameObject);
-
             EventManager.OnCorrectCollectibleCollected += OnCorrectCollectibleCollected;
         }
 
@@ -75,6 +73,7 @@ namespace Managers
         {
             _currentGameState = newState;
             EventManager.OnGameStateChanged?.Invoke(newState);
+            
             Debug.Log("Game State Changed: " + newState);
             CheckStates();
         }

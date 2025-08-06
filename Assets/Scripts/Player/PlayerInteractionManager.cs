@@ -58,17 +58,22 @@ namespace Player
             }
             else if (other.CompareTag(Conts.Tags.KICK_START))
             {
+                // Stacking is over. Bonus running is started.
                 _playerBonusController.enabled = true;
-                GameManager.Instance.SetActiveBonusUI(true);
                 _playerMovementController.ResetForwardSpeed();
+                _playerMovementController.DisableHorizontalMovement();
+                
+                GameManager.Instance.SetActiveBonusUI(true);
             }
             else if (other.CompareTag(Conts.Tags.KICK_END))
             {
-                GameManager.Instance.ChangeGameState(GameState.BonusCalculation);
+                // Bonus run is over. Calculate bonus.        
                 _playerBonusController.enabled = false;
+                GameManager.Instance.ChangeGameState(GameState.BonusCalculation);
             }
         }
         
+        // sets the color of all collected items to the specified color
         private void SetColorCollectedItems(Material color)
         {
             if (_collectedItems.Count <= 1) return;
@@ -82,6 +87,7 @@ namespace Player
             }
         }
 
+        // This method is called when a collectible is collected
         private void OnCollectibleCollected(ColorType colorType)
         {
             // If this is the first collectible, set the current color type
@@ -102,6 +108,7 @@ namespace Player
             }
         }
 
+        // This method is called when a collectible is collected correctly
         private void CorrectCollectibleCollected()
         {
             _selectedItem.transform.SetParent(_playerPlateTransform);
@@ -115,6 +122,7 @@ namespace Player
             _playerMovementController.IncreaseForwardSpeed(.25f);
         }
         
+        // This method is called when a collectible is collected incorrectly
         private void WrongCollectCollectible()
         {
             if (_collectedItems.Count <= 1)

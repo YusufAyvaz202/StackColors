@@ -21,7 +21,6 @@ namespace Player
         
         [Header("Settings")]
         private bool isStarted;
-
         
         #region Unity Methods
         private void Awake()
@@ -54,7 +53,7 @@ namespace Player
             _moveInput = context.ReadValue<Vector2>();
         }
         
-        private void BonusActionOnStarted(InputAction.CallbackContext obj)
+        private void BonusActionOnStarted(InputAction.CallbackContext context)
         {
             EventManager.OnBonusActionPerformed?.Invoke();
         }
@@ -91,6 +90,7 @@ namespace Player
             _bonusAction.started -= BonusActionOnStarted;
             _bonusAction.performed -= BonusActionOnStarted;
             _bonusAction.canceled -= BonusActionOnStarted;
+            _bonusAction.Disable();
         }
         
         #endregion

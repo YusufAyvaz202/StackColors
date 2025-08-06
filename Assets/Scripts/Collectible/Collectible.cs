@@ -11,10 +11,14 @@ namespace Collectible
         [SerializeField] private ColorType _colorType;
         [SerializeField] private Material _colorMaterial;
 
+        #region Unity Methods
+
         private void Awake()
         {
             GetComponent<MeshRenderer>().material = _colorMaterial;
         }
+
+        #endregion
 
         public void Collect(Action<ColorType> onCollected)
         {

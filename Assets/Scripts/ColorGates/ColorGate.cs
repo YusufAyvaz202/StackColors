@@ -5,6 +5,7 @@ namespace ColorGates
 {
     public class ColorGate : MonoBehaviour
     {
+        [Header("Settings")]
         [SerializeField] private ColorType _colorType;
         [SerializeField] private Material _colorMaterial;
 
