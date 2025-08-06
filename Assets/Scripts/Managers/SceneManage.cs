@@ -22,18 +22,30 @@ namespace Managers
             }
         }
 
+        private void Start()
+        {
+            LoadNextScene();
+        }
+
         #endregion
 
         public void LoadNextScene()
         {
             int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
-            SceneManager.LoadScene(nextSceneIndex);
+            
+            if(nextSceneIndex >= SceneManager.sceneCountInBuildSettings)
+            {
+                Debug.LogWarning("No more scenes to load. Returning to the first scene.");
+                nextSceneIndex = 0; // Loop back to the first scene
+            }
+            
+            SceneManager.LoadScene(nextSceneIndex, LoadSceneMode.Additive);
         }
 
         public void RestartCurrentScene()
         {
             int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-            SceneManager.LoadScene(currentSceneIndex);
+            SceneManager.LoadScene(currentSceneIndex, LoadSceneMode.Additive);
         }
     }
 }
