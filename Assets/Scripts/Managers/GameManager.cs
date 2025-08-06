@@ -55,7 +55,7 @@ namespace Managers
         {
             _currentGameState = newState;
             EventManager.OnGameStateChanged?.Invoke(newState);
-            
+            Debug.Log("Game State Changed: " + newState);
             CheckStates();
         }
 
@@ -87,18 +87,17 @@ namespace Managers
             
             // This event for update the score UI.
             EventManager.OnCorrectCollectibleCollected?.Invoke();
-            Debug.Log("Player Score after Bonus Calculation: " + _playerScore);
+            ChangeGameState(GameState.Win);
         }
         
         private void GameWin()
         {
-            ChangeGameState(GameState.Win);
+            SetActiveBonusUI(false);
             _winLoseUI.OnGameWin();
         }
         
         private void GameOver()
         {
-            ChangeGameState(GameState.GameOver);
             _winLoseUI.OnGameOver();
         }
         
@@ -114,9 +113,9 @@ namespace Managers
             return (int)_playerScore;
         }
 
-        public void SetActiveBonusUI()
+        public void SetActiveBonusUI(bool isActive)
         {
-            _bonusUI.gameObject.SetActive(true);
+            _bonusUI.gameObject.SetActive(isActive);
         }
         
         public void UpdateBonusSliderValue(float value)

@@ -59,7 +59,8 @@ namespace Player
             else if (other.CompareTag(Conts.Tags.KICK_START))
             {
                 _playerBonusController.enabled = true;
-                GameManager.Instance.SetActiveBonusUI();
+                GameManager.Instance.SetActiveBonusUI(true);
+                _playerMovementController.ResetForwardSpeed();
             }
             else if (other.CompareTag(Conts.Tags.KICK_END))
             {
