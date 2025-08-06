@@ -11,6 +11,7 @@ namespace Player
     {
         [Header("References")] 
         private PlayerMovementController _playerMovementController;
+        private PlayerBonusController _playerBonusController;
         [SerializeField] private Transform _playerPlateTransform;
         [SerializeField] private float _scaleMultiplier = 1f;
         
@@ -28,12 +29,21 @@ namespace Player
         private void Awake()
         {
             _collectedItems = new List<GameObject> { _playerPlateTransform.gameObject };
-            _playerMovementController = GetComponent<PlayerMovementController>();
+            GetComponents();
         }
 
         private void OnTriggerEnter(Collider other)
         {
+            CheckTriggers(other);
+        }
+
+        #endregion
+        
+        private void CheckTriggers(Collider other)
+        {
             if(GameManager.Instance.GetCurrentGameState() != GameState.Playing) return;
+            
+            // This part of code requires refactoring to avoid multiple checks
             if(_selectedItem == other.gameObject) return;
             
             if (other.TryGetComponent(out ICollectible collectible))
@@ -46,9 +56,11 @@ namespace Player
                 SetColorCollectedItems(colorGate.GetColorMaterial());
                 _currentColorType = colorGate.GetColorType();
             }
+            else if (other.CompareTag(Conts.Tags.KICK_START))
+            {
+                _playerBonusController.enabled = true;
+            }
         }
-
-        #endregion
         
         private void SetColorCollectedItems(Material color)
         {
@@ -115,5 +127,15 @@ namespace Player
             
             _playerMovementController.ResetForwardSpeed();
         }
+
+        #region Initialize & Cleanup
+        
+        private void GetComponents()
+        {
+            _playerMovementController = GetComponent<PlayerMovementController>();
+            _playerBonusController = GetComponent<PlayerBonusController>();
+        }
+
+        #endregion
     }
 }

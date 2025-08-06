@@ -5,12 +5,19 @@
         public struct InputAction
         {
             public const string MOVE_ACTION = "Move";
+            public const string BONUS_ACTION = "Bonus";
         } 
         
         public struct PlayerAnimations
         {
             public const string IDLE = "Idle";
             public const string RUN = "Run";
+        }
+        
+        public struct Tags
+        {
+            public const string KICK_START = "KickStart";
+            public const string KICK_END = "KickEnd";
         }
     }
 }
