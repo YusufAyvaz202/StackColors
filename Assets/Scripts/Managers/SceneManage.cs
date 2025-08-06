@@ -23,20 +23,13 @@ namespace Managers
         }
 
         #endregion
-        
+
         public void LoadNextScene()
         {
             int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
-            if (SceneManager.sceneCount < nextSceneIndex)
-            {
-                SceneManager.LoadScene(nextSceneIndex);
-            }
-            else
-            {
-                Debug.Log("No more scenes to load.");
-            }
+            SceneManager.LoadScene(nextSceneIndex);
         }
-        
+
         public void RestartCurrentScene()
         {
             int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
