@@ -8,6 +8,7 @@ namespace Managers
         // Event triggered when a correct collectible is collected.
         public static Action OnCorrectCollectibleCollected;
         public static Action OnGoldCollected;
+        public static Action<float> OnFewerModeChanged;
         
         // Event triggered when the game state changes.
         public static Action<GameState> OnGameStateChanged;

@@ -45,6 +45,8 @@ namespace Managers
         
         private void FewerModeDeactivate()
         {
+            EventManager.OnFewerModeChanged?.Invoke(0f);
+            GameManager.Instance.ChangeGameState(GameState.Playing);
             foreach (var collectible in _collectibles)
             {
                 collectible.DisableFewerMode();

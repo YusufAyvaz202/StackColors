@@ -192,6 +192,7 @@ namespace Player
         {
             if (GameManager.Instance.GetCurrentGameState() == GameState.FewerMode) return;
             _fewerModeCount++;
+            EventManager.OnFewerModeChanged?.Invoke(_fewerModeCount);
             if (_fewerModeCount >= Conts.FewerMode.FewerModeCount)
             {
                 ResetFewerModeCount();
