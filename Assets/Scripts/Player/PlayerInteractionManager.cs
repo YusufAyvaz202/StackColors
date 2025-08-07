@@ -191,11 +191,12 @@ namespace Player
         private void IncreaseFewerModeCount()
         {
             if (GameManager.Instance.GetCurrentGameState() == GameState.FewerMode) return;
+            
             _fewerModeCount++;
             EventManager.OnFewerModeChanged?.Invoke(_fewerModeCount);
+            
             if (_fewerModeCount >= Conts.FewerMode.FewerModeCount)
             {
-                ResetFewerModeCount();
                 FewerModeManager.Instance.SetFewerModeMaterial(_tempColorMaterial, _currentColorType);
                 GameManager.Instance.ChangeGameState(GameState.FewerMode);
             }
@@ -204,6 +205,7 @@ namespace Player
         private void ResetFewerModeCount()
         {
             _fewerModeCount = 0;
+            EventManager.OnFewerModeChanged?.Invoke(_fewerModeCount);
         }
 
         #endregion
