@@ -40,6 +40,15 @@ namespace Managers
             {
                 collectible.ReadyForFewerMode(_material, _colorType);
             }
+            Invoke(nameof(FewerModeDeactivate), Conts.FewerMode.FewerModeDuration);
+        }
+        
+        private void FewerModeDeactivate()
+        {
+            foreach (var collectible in _collectibles)
+            {
+                collectible.DisableFewerMode();
+            }
         }
         
         #region Helper Methods

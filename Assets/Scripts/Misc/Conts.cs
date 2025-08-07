@@ -16,7 +16,7 @@
         
         public struct FewerMode
         {
-            public const int FewerModeCount = 3;
+            public const int FewerModeCount = 15;
             public const float FewerModeDuration = 5f;
         }
        

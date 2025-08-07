@@ -190,6 +190,7 @@ namespace Player
 
         private void IncreaseFewerModeCount()
         {
+            if (GameManager.Instance.GetCurrentGameState() == GameState.FewerMode) return;
             _fewerModeCount++;
             if (_fewerModeCount >= Conts.FewerMode.FewerModeCount)
             {

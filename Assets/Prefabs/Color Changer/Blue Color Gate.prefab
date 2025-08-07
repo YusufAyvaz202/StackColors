@@ -119,5 +119,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _collectibleType: 1
-  _colorType: 2
-  _colorMaterial: {fileID: 2100000, guid: b6590bd5908edad4a803098c0f733628, type: 2}
+  _currentColorType: 2
+  _currentColorMaterial: {fileID: 2100000, guid: b6590bd5908edad4a803098c0f733628, type: 2}
