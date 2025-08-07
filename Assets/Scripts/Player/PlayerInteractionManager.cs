@@ -69,13 +69,13 @@ namespace Player
                     if (GameManager.Instance.GetCurrentGameState() == GameState.FewerMode)
                     {
                         FewerModeManager.Instance.SetFewerModeMaterial(_tempColorMaterial, colorType);
-                        FewerModeManager.Instance.FewerModeActivate();
+                        FewerModeManager.Instance.ChangeFewerModeMaterial();
                     }
-                    
                     SetColorCollectedItems(_tempColorMaterial);
                     _currentColorType = colorType;
                     break;
                 case CollectibleType.BonusCollectorStart:
+                    GameManager.Instance.ChangeGameState(GameState.Playing);
                     BonusCollectorStart();
                     break;
                 case CollectibleType.BonusCollectorEnd:

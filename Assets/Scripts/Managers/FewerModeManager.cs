@@ -43,6 +43,14 @@ namespace Managers
             Invoke(nameof(FewerModeDeactivate), Conts.FewerMode.FewerModeDuration);
         }
         
+        public void ChangeFewerModeMaterial()
+        {
+            foreach (var collectible in _collectibles)
+            {
+                collectible.ReadyForFewerMode(_material, _colorType);
+            }
+        }
+        
         private void FewerModeDeactivate()
         {
             EventManager.OnFewerModeChanged?.Invoke(0f);
