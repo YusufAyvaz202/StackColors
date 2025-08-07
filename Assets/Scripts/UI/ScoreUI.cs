@@ -14,14 +14,14 @@ namespace UI
         {
             EventManager.OnCorrectCollectibleCollected += UpdateScoreText;
         }
-        
+
         private void OnDisable()
         {
             EventManager.OnCorrectCollectibleCollected -= UpdateScoreText;
         }
-        
+
         #endregion
-        
+
         private void UpdateScoreText()
         {
             _scoreText.text = GameManager.Instance.GetPlayerScore().ToString();

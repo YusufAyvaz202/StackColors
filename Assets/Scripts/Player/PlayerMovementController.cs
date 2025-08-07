@@ -7,18 +7,19 @@ namespace Player
     [RequireComponent(typeof(Rigidbody))]
     public class PlayerMovementController : MonoBehaviour
     {
-        [Header("References")]
+        [Header("References")] 
         private PlayerInputController _playerInputController;
         private Rigidbody _rigidbody;
-        
+
         [Header("Movement Settings")]
-        [SerializeField] private float _horizontalSpeed= 5f;
+        [SerializeField] private float _horizontalSpeed = 5f;
         [SerializeField] private float _currentForwardSpeed = 5f;
         private float baseForwardSpeed;
 
         /// <summary>
         /// Unity lifecycle methods for initialization and updates.
         /// </summary>
+
         #region Unity Methods
 
         private void Awake()
@@ -36,8 +37,8 @@ namespace Player
 
         private void Move()
         {
-            if (GameManager.Instance.GetCurrentGameState() != GameState.Playing) return;   
-            
+            if (GameManager.Instance.GetCurrentGameState() != GameState.Playing) return;
+
             Vector2 moveInput = _playerInputController.MoveInput;
             Vector3 movementDirection = new Vector3(moveInput.x * _horizontalSpeed, 0, _currentForwardSpeed);
             _rigidbody.MovePosition(_rigidbody.position + movementDirection * Time.fixedDeltaTime);
@@ -49,17 +50,17 @@ namespace Player
         {
             _currentForwardSpeed += speed;
         }
-        
+
         public void ResetForwardSpeed()
         {
             _currentForwardSpeed = baseForwardSpeed;
         }
-        
+
         public void DisableHorizontalMovement()
         {
             _horizontalSpeed = 0f;
         }
-        
+
         #endregion
 
         #region Initialize & Cleanup
@@ -69,8 +70,7 @@ namespace Player
             _playerInputController = GetComponent<PlayerInputController>();
             _rigidbody = GetComponent<Rigidbody>();
         }
-        
+
         #endregion
-        
     }
 }

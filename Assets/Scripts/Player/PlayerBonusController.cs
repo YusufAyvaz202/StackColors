@@ -7,7 +7,7 @@ namespace Player
     public class PlayerBonusController : MonoBehaviour
     {
         [Header("Settings")]
-        private float totalBonus;
+        private float _totalBonus;
         
         #region Unity Methods
 
@@ -23,9 +23,9 @@ namespace Player
 
         private void FixedUpdate()
         {
-            totalBonus -= Time.fixedDeltaTime * 2;
-            totalBonus = Mathf.Clamp(totalBonus, 0f, 5f);
-            GameManager.Instance.UpdateBonusSliderValue(totalBonus);
+            _totalBonus -= Time.fixedDeltaTime * 2;
+            _totalBonus = Mathf.Clamp(_totalBonus, 0f, 5f);
+            GameManager.Instance.UpdateBonusSliderValue(_totalBonus);
         }
 
         #endregion
@@ -33,14 +33,14 @@ namespace Player
         private void IncreaseBonus()
         {
             if(GameManager.Instance.GetCurrentGameState() != GameState.Playing) return;
-            totalBonus += 0.2f;
+            _totalBonus += 0.2f;
         }
 
         #region Helper Methods
 
         public float GetTotalBonus()
         {
-            return totalBonus;
+            return _totalBonus;
         }
 
         #endregion

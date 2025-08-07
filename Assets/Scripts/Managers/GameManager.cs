@@ -26,15 +26,6 @@ namespace Managers
             _playerBonusController = playerBonusController;
             _winLoseUI = winLoseUI;
             _bonusUI = bonusUI;
-
-            if (_playerBonusController is null || _winLoseUI is null || _bonusUI is null)
-            {
-                Debug.LogError("GameManager: Missing dependencies in Zenject setup.");
-            }
-            else
-            {
-                Debug.Log("GameManager: Zenject setup complete.");
-            }
         }
 
         /// <summary>

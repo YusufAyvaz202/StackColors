@@ -21,11 +21,5 @@ namespace Collectible
         {
             return _colorMaterial;
         }
-
-        public ColorType GetColorType()
-        {
-            return _colorType;
-        }
-        
     }
 }

@@ -13,18 +13,19 @@ namespace Player
         private PlayerBonusController _playerBonusController;
         [SerializeField] private Transform _playerPlateTransform;
         [SerializeField] private float _scaleMultiplier = 1f;
-        
-        [Header("Settings")] 
+
+        [Header("Settings")]
         private List<GameObject> _collectedItems;
         private GameObject _selectedItem;
         private ColorType _currentColorType;
         private bool _isFirstPick = true;
-        
+
         private Material _tempColorMaterial;
 
         /// <summary>
         /// Awake, Start, Update, and other Unity lifecycle methods.
         /// </summary>
+
         #region Unity Methods
 
         private void Awake()
@@ -39,12 +40,12 @@ namespace Player
         }
 
         #endregion
-        
+
         private void CheckTriggers(Collider other)
         {
-            if(GameManager.Instance.GetCurrentGameState() != GameState.Playing) return;
-            if(_selectedItem == other.gameObject) return;
-            
+            if (GameManager.Instance.GetCurrentGameState() != GameState.Playing) return;
+            if (_selectedItem == other.gameObject) return;
+
             if (other.TryGetComponent(out ICollectible collectible))
             {
                 _selectedItem = other.gameObject;
@@ -52,7 +53,7 @@ namespace Player
                 collectible.Collect(OnCollectibleCollected);
             }
         }
-        
+
         // This method is called when a collectible is collected
         private void OnCollectibleCollected(ColorType colorType, CollectibleType collectibleType)
         {
@@ -73,7 +74,7 @@ namespace Player
                     break;
             }
         }
-        
+
         // This method is called when the bonus collector starts
         private void BonusCollectorStart()
         {
@@ -81,17 +82,17 @@ namespace Player
             _playerBonusController.enabled = true;
             _playerMovementController.ResetForwardSpeed();
             _playerMovementController.DisableHorizontalMovement();
-            
+
             GameManager.Instance.SetActiveBonusUI(true);
         }
-        
+
         private void BonusCollectorEnd()
         {
             // Bonus run is over. Calculate bonus.
             _playerBonusController.enabled = false;
             GameManager.Instance.ChangeGameState(GameState.BonusCalculation);
         }
-        
+
         // Sets the color of all collected items to the specified color
         private void SetColorCollectedItems(Material colorMaterial)
         {
@@ -116,7 +117,7 @@ namespace Player
                 _currentColorType = colorType;
                 _isFirstPick = false;
             }
-            
+
             if (_currentColorType == colorType)
             {
                 CorrectCollectibleCollected();
@@ -133,15 +134,15 @@ namespace Player
         {
             _selectedItem.transform.SetParent(_playerPlateTransform);
             _scaleMultiplier *= (_selectedItem.transform.localScale.y + _collectedItems[^1].transform.localScale.y) / 2;
-                
+
             _selectedItem.transform.localPosition = new Vector3(0, _collectedItems[^1].transform.localPosition.y + _scaleMultiplier, 0);
             _collectedItems.Add(_selectedItem);
 
             _scaleMultiplier = 1f;
-            
+
             _playerMovementController.IncreaseForwardSpeed(.25f);
         }
-        
+
         // This method is called when a collectible is collected incorrectly
         private void WrongCollectCollectible()
         {
@@ -150,21 +151,20 @@ namespace Player
                 GameManager.Instance.ChangeGameState(GameState.GameOver);
                 return;
             }
-            
+
             var collectible = _collectedItems[^1];
-                
+
             collectible.transform.SetParent(null);
             _collectedItems.Remove(collectible);
             Destroy(collectible.gameObject);
-            
+
             _playerMovementController.ResetForwardSpeed();
         }
 
         #endregion
 
-
         #region Initialize & Cleanup
-        
+
         private void GetComponents()
         {
             _playerMovementController = GetComponent<PlayerMovementController>();

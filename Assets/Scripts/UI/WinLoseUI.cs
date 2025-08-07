@@ -7,26 +7,25 @@ namespace UI
 {
     public class WinLoseUI : MonoBehaviour
     {
-        [Header("References")]
+        [Header("References")] 
         [SerializeField] private GameObject _blackBackgroundObject;
         [SerializeField] private GameObject _winPopup;
         [SerializeField] private GameObject _losePopup;
         [SerializeField] private Button _restartButton;
         [SerializeField] private Button _nextLevelButton;
 
-        [Header("Settings")]
+        [Header("Settings")] 
         [SerializeField] private float _animationDuration = 0.3f;
-
         private Image _blackBackgroundImage;
         private RectTransform _winPopupTransform;
         private RectTransform _losePopupTransform;
 
-        private void Awake() 
+        private void Awake()
         {
             _blackBackgroundImage = _blackBackgroundObject.GetComponent<Image>();
             _winPopupTransform = _winPopup.GetComponent<RectTransform>();
             _losePopupTransform = _losePopup.GetComponent<RectTransform>();
-            
+
             _restartButton.onClick.AddListener(() => SceneManage.Instance.RestartCurrentScene());
             _nextLevelButton.onClick.AddListener(() => SceneManage.Instance.LoadNextScene());
         }
