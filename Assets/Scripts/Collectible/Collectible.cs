@@ -7,22 +7,25 @@ namespace Collectible
 {
     public class Collectible : MonoBehaviour, ICollectible
     {
-        [Header("Settings")]
+        [Header("Settings")] 
+        [SerializeField] private CollectibleType _collectibleType;
         [SerializeField] private ColorType _colorType;
         [SerializeField] private Material _colorMaterial;
 
-        #region Unity Methods
-
-        private void Awake()
+        public void Collect(Action<ColorType, CollectibleType> onCollected)
         {
-            GetComponent<MeshRenderer>().material = _colorMaterial;
+            onCollected?.Invoke(_colorType, _collectibleType);
         }
 
-        #endregion
-
-        public void Collect(Action<ColorType> onCollected)
+        public Material GetColorMaterial()
         {
-            onCollected?.Invoke(_colorType);
+            return _colorMaterial;
         }
+
+        public ColorType GetColorType()
+        {
+            return _colorType;
+        }
+        
     }
 }

@@ -23,7 +23,7 @@ namespace Player
 
         private void FixedUpdate()
         {
-            totalBonus -= Time.fixedDeltaTime;
+            totalBonus -= Time.fixedDeltaTime * 2;
             totalBonus = Mathf.Clamp(totalBonus, 0f, 5f);
             GameManager.Instance.UpdateBonusSliderValue(totalBonus);
         }

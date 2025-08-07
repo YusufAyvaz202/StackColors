@@ -18,4 +18,12 @@
         GameOver,
         Win,
     }
+    
+    public enum CollectibleType
+    {
+        Color,
+        ColorChanger,
+        BonusCollectorStart,
+        BonusCollectorEnd,
+    }
 }

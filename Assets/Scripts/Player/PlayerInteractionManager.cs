@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using ColorGates;
 using Interface;
 using Managers;
 using Misc;
@@ -20,6 +19,8 @@ namespace Player
         private GameObject _selectedItem;
         private ColorType _currentColorType;
         private bool _isFirstPick = true;
+        
+        private Material _tempColorMaterial;
 
         /// <summary>
         /// Awake, Start, Update, and other Unity lifecycle methods.
@@ -42,39 +43,57 @@ namespace Player
         private void CheckTriggers(Collider other)
         {
             if(GameManager.Instance.GetCurrentGameState() != GameState.Playing) return;
-            
-            // This part of code requires refactoring to avoid multiple checks
             if(_selectedItem == other.gameObject) return;
             
             if (other.TryGetComponent(out ICollectible collectible))
             {
                 _selectedItem = other.gameObject;
+                _tempColorMaterial = collectible.GetColorMaterial();
                 collectible.Collect(OnCollectibleCollected);
-            }
-            else if (other.TryGetComponent(out ColorGate colorGate))
-            {
-                SetColorCollectedItems(colorGate.GetColorMaterial());
-                _currentColorType = colorGate.GetColorType();
-            }
-            else if (other.CompareTag(Conts.Tags.KICK_START))
-            {
-                // Stacking is over. Bonus running is started.
-                _playerBonusController.enabled = true;
-                _playerMovementController.ResetForwardSpeed();
-                _playerMovementController.DisableHorizontalMovement();
-                
-                GameManager.Instance.SetActiveBonusUI(true);
-            }
-            else if (other.CompareTag(Conts.Tags.KICK_END))
-            {
-                // Bonus run is over. Calculate bonus.        
-                _playerBonusController.enabled = false;
-                GameManager.Instance.ChangeGameState(GameState.BonusCalculation);
             }
         }
         
-        // sets the color of all collected items to the specified color
-        private void SetColorCollectedItems(Material color)
+        // This method is called when a collectible is collected
+        private void OnCollectibleCollected(ColorType colorType, CollectibleType collectibleType)
+        {
+            switch (collectibleType)
+            {
+                case CollectibleType.Color:
+                    ColorCollectibleCollected(colorType);
+                    break;
+                case CollectibleType.ColorChanger:
+                    SetColorCollectedItems(_tempColorMaterial);
+                    _currentColorType = colorType;
+                    break;
+                case CollectibleType.BonusCollectorStart:
+                    BonusCollectorStart();
+                    break;
+                case CollectibleType.BonusCollectorEnd:
+                    BonusCollectorEnd();
+                    break;
+            }
+        }
+        
+        // This method is called when the bonus collector starts
+        private void BonusCollectorStart()
+        {
+            // Stacking is over. Bonus running is started.
+            _playerBonusController.enabled = true;
+            _playerMovementController.ResetForwardSpeed();
+            _playerMovementController.DisableHorizontalMovement();
+            
+            GameManager.Instance.SetActiveBonusUI(true);
+        }
+        
+        private void BonusCollectorEnd()
+        {
+            // Bonus run is over. Calculate bonus.
+            _playerBonusController.enabled = false;
+            GameManager.Instance.ChangeGameState(GameState.BonusCalculation);
+        }
+        
+        // Sets the color of all collected items to the specified color
+        private void SetColorCollectedItems(Material colorMaterial)
         {
             if (_collectedItems.Count <= 1) return;
 
@@ -82,13 +101,14 @@ namespace Player
             {
                 if (item.TryGetComponent(out MeshRenderer meshRenderer))
                 {
-                    meshRenderer.material = color;
+                    meshRenderer.material = colorMaterial;
                 }
             }
         }
 
-        // This method is called when a collectible is collected
-        private void OnCollectibleCollected(ColorType colorType)
+        #region Color Collectible Methods
+
+        private void ColorCollectibleCollected(ColorType colorType)
         {
             // If this is the first collectible, set the current color type
             if (_isFirstPick)
@@ -139,6 +159,9 @@ namespace Player
             
             _playerMovementController.ResetForwardSpeed();
         }
+
+        #endregion
+
 
         #region Initialize & Cleanup
         
