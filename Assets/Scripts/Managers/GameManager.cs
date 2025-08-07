@@ -85,6 +85,9 @@ namespace Managers
                 case GameState.GameOver:
                     GameOver();
                     break;
+                case GameState.FewerMode:
+                    FewerModeManager.Instance.FewerModeActivate();
+                    break;
             }
         }
 

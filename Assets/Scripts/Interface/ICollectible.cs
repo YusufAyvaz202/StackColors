@@ -8,5 +8,6 @@ namespace Interface
     {
         void Collect(Action<ColorType, CollectibleType> onCollected);
         Material GetColorMaterial();
+                
     }
 }

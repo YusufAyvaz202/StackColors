@@ -13,5 +13,12 @@
             public const string IDLE = "Idle";
             public const string RUN = "Run";
         }
+        
+        public struct FewerMode
+        {
+            public const int FewerModeCount = 3;
+            public const float FewerModeDuration = 5f;
+        }
+       
     }
 }

@@ -37,7 +37,8 @@ namespace Player
 
         private void Move()
         {
-            if (GameManager.Instance.GetCurrentGameState() != GameState.Playing) return;
+            GameState gameState = GameManager.Instance.GetCurrentGameState(); 
+            if (gameState != GameState.Playing && gameState != GameState.FewerMode) return;
 
             Vector2 moveInput = _playerInputController.MoveInput;
             Vector3 movementDirection = new Vector3(moveInput.x * _horizontalSpeed, 0, _currentForwardSpeed);

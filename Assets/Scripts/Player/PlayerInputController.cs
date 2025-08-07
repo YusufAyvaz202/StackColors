@@ -49,7 +49,8 @@ namespace Player
                 _playerAnimationController.SetRunAnimation();
             }
             
-            if (GameManager.Instance.GetCurrentGameState() != GameState.Playing) return;
+            GameState gameState = GameManager.Instance.GetCurrentGameState();
+            if (gameState != GameState.Playing && gameState != GameState.FewerMode) return;
             _moveInput = context.ReadValue<Vector2>();
         }
         

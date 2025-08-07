@@ -19,6 +19,7 @@ namespace Player
         private GameObject _selectedItem;
         private ColorType _currentColorType;
         private bool _isFirstPick = true;
+        private int _fewerModeCount;
 
         private Material _tempColorMaterial;
 
@@ -43,7 +44,8 @@ namespace Player
 
         private void CheckTriggers(Collider other)
         {
-            if (GameManager.Instance.GetCurrentGameState() != GameState.Playing) return;
+            GameState gameState = GameManager.Instance.GetCurrentGameState(); 
+            if (gameState != GameState.Playing && gameState != GameState.FewerMode) return;
             if (_selectedItem == other.gameObject) return;
 
             if (other.TryGetComponent(out ICollectible collectible))
@@ -63,6 +65,13 @@ namespace Player
                     ColorCollectibleCollected(colorType);
                     break;
                 case CollectibleType.ColorChanger:
+                    // If the game is in fewer mode & we pass a color changer, we set the fewer mode material.
+                    if (GameManager.Instance.GetCurrentGameState() == GameState.FewerMode)
+                    {
+                        FewerModeManager.Instance.SetFewerModeMaterial(_tempColorMaterial, colorType);
+                        FewerModeManager.Instance.FewerModeActivate();
+                    }
+                    
                     SetColorCollectedItems(_tempColorMaterial);
                     _currentColorType = colorType;
                     break;
@@ -151,6 +160,7 @@ namespace Player
             _collectedItems.Add(_selectedItem);
 
             _scaleMultiplier = 1f;
+            IncreaseFewerModeCount();
 
             _playerMovementController.IncreaseForwardSpeed(.25f);
         }
@@ -171,10 +181,32 @@ namespace Player
             Destroy(collectible.gameObject);
 
             _playerMovementController.ResetForwardSpeed();
+            ResetFewerModeCount();
         }
 
         #endregion
 
+        #region Fewer Mode Methods
+
+        private void IncreaseFewerModeCount()
+        {
+            _fewerModeCount++;
+            if (_fewerModeCount >= Conts.FewerMode.FewerModeCount)
+            {
+                ResetFewerModeCount();
+                FewerModeManager.Instance.SetFewerModeMaterial(_tempColorMaterial, _currentColorType);
+                GameManager.Instance.ChangeGameState(GameState.FewerMode);
+            }
+        }
+
+        private void ResetFewerModeCount()
+        {
+            _fewerModeCount = 0;
+        }
+
+        #endregion
+
+        
         #region Initialize & Cleanup
 
         private void GetComponents()

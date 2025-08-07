@@ -17,6 +17,7 @@
         BonusCalculation,
         GameOver,
         Win,
+        FewerMode
     }
     
     public enum CollectibleType
