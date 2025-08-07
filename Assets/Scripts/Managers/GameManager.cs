@@ -19,6 +19,7 @@ namespace Managers
         [Header("Game Settings")]
         private GameState _currentGameState;
         private float _playerScore;
+        private int _playerGold;
 
         [Inject]
         private void ZenjectSetup(PlayerBonusController playerBonusController, WinLoseUI winLoseUI, BonusUI bonusUI)
@@ -46,6 +47,7 @@ namespace Managers
             }
 
             EventManager.OnCorrectCollectibleCollected += OnCorrectCollectibleCollected;
+            EventManager.OnGoldCollected += () => _playerGold++;
         }
 
         private void Start()
@@ -56,6 +58,7 @@ namespace Managers
         private void OnDisable()
         {
             EventManager.OnCorrectCollectibleCollected -= OnCorrectCollectibleCollected;
+            //EventManager.OnGoldCollected -= () => _playerGold++;
         }
 
         #endregion
@@ -121,6 +124,11 @@ namespace Managers
         public int GetPlayerScore()
         {
             return (int)_playerScore;
+        }
+
+        public int GetPlayerGold()
+        {
+            return _playerGold;
         }
 
         public void SetActiveBonusUI(bool isActive)

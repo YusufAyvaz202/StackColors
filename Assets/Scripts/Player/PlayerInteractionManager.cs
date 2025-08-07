@@ -72,7 +72,15 @@ namespace Player
                 case CollectibleType.BonusCollectorEnd:
                     BonusCollectorEnd();
                     break;
+                case CollectibleType.Gold:
+                    CollectGold();
+                    break;
             }
+        }
+        
+        private void CollectGold()
+        {
+            EventManager.OnGoldCollected?.Invoke();
         }
 
         // This method is called when the bonus collector starts
@@ -82,6 +90,10 @@ namespace Player
             _playerBonusController.enabled = true;
             _playerMovementController.ResetForwardSpeed();
             _playerMovementController.DisableHorizontalMovement();
+            
+            // When the bonus collector starts, the player plate is moved to the center of the screen.
+            Vector3 resetXPosition = new Vector3(0, transform.position.y, transform.position.z);
+            transform.position = Vector3.Slerp(transform.position, resetXPosition, 2f);
 
             GameManager.Instance.SetActiveBonusUI(true);
         }

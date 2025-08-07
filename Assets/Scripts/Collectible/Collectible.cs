@@ -21,5 +21,13 @@ namespace Collectible
         {
             return _colorMaterial;
         }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (_collectibleType != CollectibleType.Color)
+            {
+                Destroy(gameObject);
+            }
+        }
     }
 }

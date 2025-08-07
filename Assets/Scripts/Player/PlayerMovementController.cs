@@ -42,6 +42,9 @@ namespace Player
             Vector2 moveInput = _playerInputController.MoveInput;
             Vector3 movementDirection = new Vector3(moveInput.x * _horizontalSpeed, 0, _currentForwardSpeed);
             _rigidbody.MovePosition(_rigidbody.position + movementDirection * Time.fixedDeltaTime);
+            
+            // Clamp the player's position to prevent going out of bounds
+            _rigidbody.position = new Vector3(Mathf.Clamp(_rigidbody.position.x, -4, 4), _rigidbody.position.y, _rigidbody.position.z);
         }
 
         #region Helper Methods

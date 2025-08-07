@@ -25,5 +25,6 @@
         ColorChanger,
         BonusCollectorStart,
         BonusCollectorEnd,
+        Gold,
     }
 }
