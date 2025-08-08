@@ -1,5 +1,6 @@
 ﻿using System;
 using Misc;
+using UnityEngine;
 
 namespace Managers
 {
@@ -15,5 +16,7 @@ namespace Managers
         
         // Event triggered when a bonus action is performed.
         public static Action OnBonusActionPerformed;
+        
+        public static Action<Transform> ChangeCameraTarget;
     }
 }

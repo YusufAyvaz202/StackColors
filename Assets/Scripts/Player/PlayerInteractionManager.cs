@@ -98,8 +98,6 @@ namespace Player
         // This method is called when the bonus collector starts
         private void BonusCollectorStart()
         {
-            
-
             // Stacking is over. Bonus running is started.
             _playerBonusController.enabled = true;
             _playerMovementController.ResetForwardSpeed();
@@ -119,6 +117,8 @@ namespace Player
             {
                 _collectedItems[i].KickCollectible((i + bonus/20) * Vector3.forward + Vector3.up);
             }
+            
+            EventManager.ChangeCameraTarget?.Invoke(_collectedItems[^1].transform);
             
             // Bonus run is over. Calculate bonus.
             _playerBonusController.enabled = false;
