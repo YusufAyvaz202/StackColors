@@ -215,7 +215,8 @@ namespace Player
             float bonus = _playerBonusController.GetTotalBonus();
             for (int i = 0; i < _collectedItems.Count; i++)
             {
-                _collectedItems[i].KickCollectible((i + bonus / 20) * Vector3.forward + Vector3.up);
+                float power = i / 5f + bonus/20f;
+                _collectedItems[i].KickCollectible(power * Vector3.forward + Vector3.up);
             }
 
             EventManager.ChangeCameraTarget?.Invoke(_collectedItems[^1].transform);
