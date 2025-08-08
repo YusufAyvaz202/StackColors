@@ -190,7 +190,7 @@ namespace Player
             Destroy(collectible.gameObject);
 
             _playerMovementController.ResetForwardSpeed();
-            ResetFewerModeCount();
+            ResetFewerMode();
         }
 
         #endregion
@@ -206,12 +206,18 @@ namespace Player
 
             if (_fewerModeCount >= Conts.FewerMode.FewerModeCount)
             {
+                ResetFewerModeCount();
                 FewerModeManager.Instance.SetFewerModeMaterial(_tempColorMaterial, _currentColorType);
                 GameManager.Instance.ChangeGameState(GameState.FewerMode);
             }
         }
 
         private void ResetFewerModeCount()
+        {
+            _fewerModeCount = 0;
+        }
+        
+        private void ResetFewerMode()
         {
             _fewerModeCount = 0;
             EventManager.OnFewerModeChanged?.Invoke(_fewerModeCount);
