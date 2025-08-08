@@ -99,7 +99,7 @@ namespace Managers
         private void CalculateBonus()
         {
             if (_currentGameState != GameState.BonusCalculation) return;
-            _playerScore *= _playerBonusController.GetTotalBonus();
+            _playerScore *= Mathf.Clamp(_playerBonusController.GetTotalBonus(), 2f, 5f);
 
             // This event for update the score UI.
             EventManager.OnCorrectCollectibleCollected?.Invoke();

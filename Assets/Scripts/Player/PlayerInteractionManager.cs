@@ -98,11 +98,7 @@ namespace Player
         // This method is called when the bonus collector starts
         private void BonusCollectorStart()
         {
-            // TODO: 
-            foreach (Collectible collectible in _collectedItems)
-            {
-                collectible.KickCollectible(new Vector3(0, 15f, 15f));
-            }
+            
 
             // Stacking is over. Bonus running is started.
             _playerBonusController.enabled = true;
@@ -118,8 +114,20 @@ namespace Player
 
         private void BonusCollectorEnd()
         {
+            float bonus = _playerBonusController.GetTotalBonus();
+            for (int i = 0; i < _collectedItems.Count; i++)
+            {
+                _collectedItems[i].KickCollectible((i + bonus/20) * Vector3.forward + Vector3.up);
+            }
+            
             // Bonus run is over. Calculate bonus.
             _playerBonusController.enabled = false;
+            _playerMovementController.enabled = false;
+            Invoke(nameof(WaitBonusAnimationEnd), 5f);
+        }
+        
+        private void WaitBonusAnimationEnd()
+        {
             GameManager.Instance.ChangeGameState(GameState.BonusCalculation);
         }
 
