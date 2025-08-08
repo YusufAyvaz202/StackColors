@@ -33,13 +33,9 @@ namespace Managers
 
         #endregion
         
-        [ContextMenu("Fewer Mode Activate")]
         public void FewerModeActivate()
         {
-            foreach (var collectible in _collectibles)
-            {
-                collectible.ReadyForFewerMode(_material, _colorType);
-            }
+            ChangeFewerModeMaterial();
             Invoke(nameof(FewerModeDeactivate), Conts.FewerMode.FewerModeDuration);
         }
         

@@ -9,12 +9,14 @@ namespace Player
 {
     public class PlayerInteractionManager : MonoBehaviour
     {
-        [Header("References")] private PlayerMovementController _playerMovementController;
-        private PlayerBonusController _playerBonusController;
+        [Header("References")] 
         [SerializeField] private Transform _playerPlateTransform;
-        [SerializeField] private float _scaleMultiplier = 1f;
+        private PlayerMovementController _playerMovementController;
+        private PlayerBonusController _playerBonusController;
 
-        [Header("Settings")] private List<Collectible> _collectedItems;
+        [Header("Settings")] 
+        [SerializeField] private float _scaleMultiplier = 1f;
+        private List<Collectible> _collectedItems;
         private Collectible _selectedItem;
         private ColorType _currentColorType;
         private bool _isFirstPick = true;
@@ -90,61 +92,6 @@ namespace Player
             }
         }
 
-        private void CollectGold()
-        {
-            EventManager.OnGoldCollected?.Invoke();
-        }
-
-        // This method is called when the bonus collector starts
-        private void BonusCollectorStart()
-        {
-            // Stacking is over. Bonus running is started.
-            _playerBonusController.enabled = true;
-            _playerMovementController.ResetForwardSpeed();
-            _playerMovementController.DisableHorizontalMovement();
-
-            // When the bonus collector starts, the player plate is moved to the center of the screen.
-            Vector3 resetXPosition = new Vector3(0, transform.position.y, transform.position.z);
-            transform.position = Vector3.Slerp(transform.position, resetXPosition, 2f);
-
-            GameManager.Instance.SetActiveBonusUI(true);
-        }
-
-        private void BonusCollectorEnd()
-        {
-            float bonus = _playerBonusController.GetTotalBonus();
-            for (int i = 0; i < _collectedItems.Count; i++)
-            {
-                _collectedItems[i].KickCollectible((i + bonus/20) * Vector3.forward + Vector3.up);
-            }
-            
-            EventManager.ChangeCameraTarget?.Invoke(_collectedItems[^1].transform);
-            
-            // Bonus run is over. Calculate bonus.
-            _playerBonusController.enabled = false;
-            _playerMovementController.enabled = false;
-            Invoke(nameof(WaitBonusAnimationEnd), 5f);
-        }
-        
-        private void WaitBonusAnimationEnd()
-        {
-            GameManager.Instance.ChangeGameState(GameState.BonusCalculation);
-        }
-
-        // Sets the color of all collected items to the specified color
-        private void SetColorCollectedItems(Material colorMaterial)
-        {
-            if (_collectedItems.Count <= 1) return;
-
-            foreach (var item in _collectedItems)
-            {
-                if (item.TryGetComponent(out MeshRenderer meshRenderer))
-                {
-                    meshRenderer.material = colorMaterial;
-                }
-            }
-        }
-
         #region Color Collectible Methods
 
         private void ColorCollectibleCollected(ColorType colorType)
@@ -192,7 +139,6 @@ namespace Player
             }
 
             var collectible = _collectedItems[^1];
-
             collectible.transform.SetParent(null);
             _collectedItems.Remove(collectible);
             Destroy(collectible.gameObject);
@@ -202,6 +148,20 @@ namespace Player
         }
 
         #endregion
+
+        // Sets the color of all collected items to the specified color
+        private void SetColorCollectedItems(Material colorMaterial)
+        {
+            if (_collectedItems.Count <= 1) return;
+
+            foreach (var item in _collectedItems)
+            {
+                if (item.TryGetComponent(out MeshRenderer meshRenderer))
+                {
+                    meshRenderer.material = colorMaterial;
+                }
+            }
+        }
 
         #region Fewer Mode Methods
 
@@ -224,7 +184,7 @@ namespace Player
         {
             _fewerModeCount = 0;
         }
-        
+
         private void ResetFewerMode()
         {
             _fewerModeCount = 0;
@@ -233,6 +193,50 @@ namespace Player
 
         #endregion
 
+        #region Bonus Collector Methods
+
+        // This method is called when the bonus collector starts
+        private void BonusCollectorStart()
+        {
+            // Stacking is over. Bonus running is started.
+            _playerBonusController.enabled = true;
+            _playerMovementController.ResetForwardSpeed();
+            _playerMovementController.DisableHorizontalMovement();
+
+            // When the bonus collector starts, the player plate is moved to the center of the screen.
+            Vector3 resetXPosition = new Vector3(0, transform.position.y, transform.position.z);
+            transform.position = Vector3.Slerp(transform.position, resetXPosition, 2f);
+
+            GameManager.Instance.SetActiveBonusUI(true);
+        }
+
+        private void BonusCollectorEnd()
+        {
+            float bonus = _playerBonusController.GetTotalBonus();
+            for (int i = 0; i < _collectedItems.Count; i++)
+            {
+                _collectedItems[i].KickCollectible((i + bonus / 20) * Vector3.forward + Vector3.up);
+            }
+
+            EventManager.ChangeCameraTarget?.Invoke(_collectedItems[^1].transform);
+
+            // Bonus run is over. Calculate bonus.
+            _playerBonusController.enabled = false;
+            _playerMovementController.enabled = false;
+            Invoke(nameof(WaitBonusAnimationEnd), 5f);
+        }
+
+        private void WaitBonusAnimationEnd()
+        {
+            GameManager.Instance.ChangeGameState(GameState.BonusCalculation);
+        }
+
+        #endregion
+
+        private void CollectGold()
+        {
+            EventManager.OnGoldCollected?.Invoke();
+        }
 
         #region Initialize & Cleanup
 
