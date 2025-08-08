@@ -212,14 +212,14 @@ namespace Player
 
         private void BonusCollectorEnd()
         {
+            EventManager.ChangeCameraTarget?.Invoke(_collectedItems[^1].transform);
+            
             float bonus = _playerBonusController.GetTotalBonus();
             for (int i = 0; i < _collectedItems.Count; i++)
             {
-                float power = i / 5f + bonus/20f;
+                float power = i / 2f + bonus/10f;
                 _collectedItems[i].KickCollectible(power * Vector3.forward + Vector3.up);
             }
-
-            EventManager.ChangeCameraTarget?.Invoke(_collectedItems[^1].transform);
 
             // Bonus run is over. Calculate bonus.
             _playerBonusController.enabled = false;

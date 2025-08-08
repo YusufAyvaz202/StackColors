@@ -6,8 +6,8 @@ namespace Camera
 {
     public class CameraController : MonoBehaviour
     {
-        [SerializeField] private CinemachineVirtualCamera _camera;
-
+        [SerializeField] private CinemachineClearShot _camera;
+        private Transform _target;
         #region Unity Methods
 
         private void OnEnable()
@@ -18,21 +18,20 @@ namespace Camera
         private void OnDisable()
         {
             EventManager.ChangeCameraTarget -= SetCameraFollowTarget;
+            CancelInvoke();
         }
 
         #endregion
         
         private void SetCameraFollowTarget(Transform target)
         {
-            if (_camera != null && target != null)
-            {
-                _camera.Follow = target;
-                _camera.LookAt = target;
-            }
-            else
-            {
-                Debug.LogWarning("Camera or target is null. Cannot set camera follow target.");
-            }
+            _target = target;
+            InvokeRepeating(nameof(SetCamera), .2f,1f);
+        }
+
+        private void SetCamera()
+        {
+            _camera.ChildCameras[0].Follow = _target;
         }
         
     }
