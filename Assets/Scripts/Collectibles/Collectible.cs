@@ -6,10 +6,13 @@ using UnityEngine;
 
 namespace Collectibles
 {
+    [RequireComponent(typeof(Rigidbody))]
     public class Collectible : MonoBehaviour, ICollectible
     {
         [Header("References")]
         private MeshRenderer _meshRenderer;
+        private Rigidbody _rigidbody;
+        private Collider _collider;
         
         [Header("Settings")] 
         [SerializeField] private CollectibleType _collectibleType;
@@ -18,12 +21,17 @@ namespace Collectibles
         
         private Material _colorMaterial;
         private ColorType _colorType;
+        
 
         private void Awake()
         {
             _meshRenderer = GetComponent<MeshRenderer>();
+            _rigidbody = GetComponent<Rigidbody>();
+            _collider = GetComponent<Collider>();
             _colorMaterial = _currentColorMaterial;
             _colorType = _currentColorType;
+            
+            _rigidbody.isKinematic = true;
         }
 
         public void Collect(Action<ColorType, CollectibleType> onCollected)
@@ -46,6 +54,14 @@ namespace Collectibles
         {
             _meshRenderer.material = _colorMaterial;
             _currentColorType = _colorType;
+        }
+        
+        public void KickCollectible(Vector3 force)
+        {
+            transform.SetParent(null);
+            _rigidbody.isKinematic = false;
+            _collider.isTrigger = false;
+            _rigidbody.AddForce(force, ForceMode.Impulse);
         }
 
         // Object pooling can be used here to reuse the collectible object instead of destroying it.

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5597945920293984856}
   - component: {fileID: 7783468853328519825}
   - component: {fileID: 4408759404402933044}
+  - component: {fileID: 8527501073644801393}
   m_Layer: 0
   m_Name: Green Color Gate
   m_TagString: Untagged
@@ -98,7 +99,7 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
@@ -121,3 +122,30 @@ MonoBehaviour:
   _collectibleType: 1
   _currentColorType: 1
   _currentColorMaterial: {fileID: 2100000, guid: 3a2e03c0f1e288b4c8d218709a0fe94a, type: 2}
+--- !u!54 &8527501073644801393
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6377698321597253431}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0

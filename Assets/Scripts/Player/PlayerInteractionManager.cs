@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Collectibles;
 using Interface;
 using Managers;
 using Misc;
@@ -8,15 +9,13 @@ namespace Player
 {
     public class PlayerInteractionManager : MonoBehaviour
     {
-        [Header("References")] 
-        private PlayerMovementController _playerMovementController;
+        [Header("References")] private PlayerMovementController _playerMovementController;
         private PlayerBonusController _playerBonusController;
         [SerializeField] private Transform _playerPlateTransform;
         [SerializeField] private float _scaleMultiplier = 1f;
 
-        [Header("Settings")]
-        private List<GameObject> _collectedItems;
-        private GameObject _selectedItem;
+        [Header("Settings")] private List<Collectible> _collectedItems;
+        private Collectible _selectedItem;
         private ColorType _currentColorType;
         private bool _isFirstPick = true;
         private int _fewerModeCount;
@@ -31,7 +30,7 @@ namespace Player
 
         private void Awake()
         {
-            _collectedItems = new List<GameObject> { _playerPlateTransform.gameObject };
+            _collectedItems = new List<Collectible> { _playerPlateTransform.GetComponent<Collectible>() };
             GetComponents();
         }
 
@@ -44,13 +43,16 @@ namespace Player
 
         private void CheckTriggers(Collider other)
         {
-            GameState gameState = GameManager.Instance.GetCurrentGameState(); 
+            GameState gameState = GameManager.Instance.GetCurrentGameState();
             if (gameState != GameState.Playing && gameState != GameState.FewerMode) return;
-            if (_selectedItem == other.gameObject) return;
+            if (_selectedItem != null)
+            {
+                if (_selectedItem.gameObject == other.gameObject) return;
+            }
 
             if (other.TryGetComponent(out ICollectible collectible))
             {
-                _selectedItem = other.gameObject;
+                _selectedItem = collectible as Collectible;
                 _tempColorMaterial = collectible.GetColorMaterial();
                 collectible.Collect(OnCollectibleCollected);
             }
@@ -71,6 +73,7 @@ namespace Player
                         FewerModeManager.Instance.SetFewerModeMaterial(_tempColorMaterial, colorType);
                         FewerModeManager.Instance.ChangeFewerModeMaterial();
                     }
+
                     SetColorCollectedItems(_tempColorMaterial);
                     _currentColorType = colorType;
                     break;
@@ -86,7 +89,7 @@ namespace Player
                     break;
             }
         }
-        
+
         private void CollectGold()
         {
             EventManager.OnGoldCollected?.Invoke();
@@ -95,11 +98,17 @@ namespace Player
         // This method is called when the bonus collector starts
         private void BonusCollectorStart()
         {
+            // TODO: 
+            foreach (Collectible collectible in _collectedItems)
+            {
+                collectible.KickCollectible(new Vector3(0, 15f, 15f));
+            }
+
             // Stacking is over. Bonus running is started.
             _playerBonusController.enabled = true;
             _playerMovementController.ResetForwardSpeed();
             _playerMovementController.DisableHorizontalMovement();
-            
+
             // When the bonus collector starts, the player plate is moved to the center of the screen.
             Vector3 resetXPosition = new Vector3(0, transform.position.y, transform.position.z);
             transform.position = Vector3.Slerp(transform.position, resetXPosition, 2f);
@@ -191,10 +200,10 @@ namespace Player
         private void IncreaseFewerModeCount()
         {
             if (GameManager.Instance.GetCurrentGameState() == GameState.FewerMode) return;
-            
+
             _fewerModeCount++;
             EventManager.OnFewerModeChanged?.Invoke(_fewerModeCount);
-            
+
             if (_fewerModeCount >= Conts.FewerMode.FewerModeCount)
             {
                 FewerModeManager.Instance.SetFewerModeMaterial(_tempColorMaterial, _currentColorType);
@@ -210,7 +219,7 @@ namespace Player
 
         #endregion
 
-        
+
         #region Initialize & Cleanup
 
         private void GetComponents()

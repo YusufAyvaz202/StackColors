@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5436381762967215449}
   - component: {fileID: 8093817088976997648}
   - component: {fileID: 3453046547989561103}
+  - component: {fileID: 8845759244573096836}
   m_Layer: 0
   m_Name: Bonus Line Start
   m_TagString: KickStart
@@ -98,7 +99,7 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
@@ -119,5 +120,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _collectibleType: 2
-  _colorType: 0
-  _colorMaterial: {fileID: 2100000, guid: fefda52aa0f55f04486b423a7b3c4709, type: 2}
+  _currentColorType: 0
+  _currentColorMaterial: {fileID: 0}
+--- !u!54 &8845759244573096836
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7574994793327810656}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
