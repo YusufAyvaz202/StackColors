@@ -164,5 +164,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _followTransform: {fileID: 0}
   swayStrength: 0.3
-  swaySpeed: 10
+  swaySpeed: 25
   dampening: 7

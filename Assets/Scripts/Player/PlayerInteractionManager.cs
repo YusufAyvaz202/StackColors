@@ -115,6 +115,7 @@ namespace Player
         }
 
         // This method is called when a collectible is collected correctly
+        private int i = 48;
         private void CorrectCollectibleCollected()
         {
             _selectedItem.transform.SetParent(_playerPlateTransform);
@@ -127,6 +128,8 @@ namespace Player
             if (_collectedItems.Count > 1)
             {
                 _selectedItem.GetComponent<FollowParent>().SetFollowTransform(_collectedItems[^1].transform);
+                _selectedItem.GetComponent<FollowParent>().SetDampening(i);
+                i--;
             }
 
             _selectedItem.transform.localPosition = new Vector3(0, _collectedItems[^1].transform.localPosition.y + _scaleMultiplier, 0);
@@ -220,6 +223,11 @@ namespace Player
             transform.position = Vector3.Slerp(transform.position, resetXPosition, 2f);
 
             GameManager.Instance.SetActiveBonusUI(true);
+            
+            foreach (var item in _collectedItems)
+            {
+                item.GetComponent<FollowParent>().enabled = false;
+            }
         }
 
         private void BonusCollectorEnd()

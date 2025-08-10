@@ -10,7 +10,7 @@ namespace Collectibles
         [SerializeField] private float dampening = 2f; 
         
         private Vector3 _baseLocalPosition; 
-        private bool _basePositionSet = false;
+        private bool _basePositionSet;
         private Vector3 _currentVelocity;
         private Vector3 _lastParentPosition;
         private float _swayOffset;
@@ -70,5 +70,16 @@ namespace Collectibles
             _baseLocalPosition = transform.localPosition;
             _basePositionSet = true;
         }
+
+		public void SetSwayStrength(float strength)
+        {
+            swayStrength = strength;
+        }
+        
+        public void SetDampening(float value)
+        {
+            dampening = value;
+        }
+
     }
 }

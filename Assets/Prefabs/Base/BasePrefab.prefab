@@ -490,8 +490,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _followTransform: {fileID: 972233283628732278}
   swayStrength: 0.3
-  swaySpeed: 10
-  dampening: 7
+  swaySpeed: 25
+  dampening: 100
 --- !u!1 &501625324179335436
 GameObject:
   m_ObjectHideFlags: 0
