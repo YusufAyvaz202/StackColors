@@ -120,7 +120,19 @@ namespace Player
             _selectedItem.transform.SetParent(_playerPlateTransform);
             _scaleMultiplier *= (_selectedItem.transform.localScale.y + _collectedItems[^1].transform.localScale.y) / 2;
 
+            if(_collectedItems.Count == 1)
+            {
+                _selectedItem.GetComponent<FollowParent>().SetFollowTransform(_playerPlateTransform);
+            }
+            if (_collectedItems.Count > 1)
+            {
+                _selectedItem.GetComponent<FollowParent>().SetFollowTransform(_collectedItems[^1].transform);
+            }
+
             _selectedItem.transform.localPosition = new Vector3(0, _collectedItems[^1].transform.localPosition.y + _scaleMultiplier, 0);
+    
+            _selectedItem.GetComponent<FollowParent>().UpdateBasePosition();
+    
             _collectedItems.Add(_selectedItem);
 
             _scaleMultiplier = 1f;

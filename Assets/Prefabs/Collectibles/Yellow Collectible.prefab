@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 951398040524993996}
   - component: {fileID: 4389691154568502678}
   - component: {fileID: -4805002642760161449}
-  - component: {fileID: 6518475058694173414}
+  - component: {fileID: -9052262534793184196}
   m_Layer: 0
   m_Name: Yellow Collectible
   m_TagString: Cube
@@ -150,7 +150,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &6518475058694173414
+--- !u!114 &-9052262534793184196
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -159,7 +159,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1050173336592461560}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48153bae42b648d8bf57c5a5de050fa1, type: 3}
+  m_Script: {fileID: 11500000, guid: 7d00d829afcc47ce9f8090092182193b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  followSpeed: 10
+  _followTransform: {fileID: 0}
+  swayStrength: 0.3
+  swaySpeed: 10
+  dampening: 7
