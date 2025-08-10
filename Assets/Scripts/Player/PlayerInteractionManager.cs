@@ -115,7 +115,7 @@ namespace Player
         }
 
         // This method is called when a collectible is collected correctly
-        private int i = 48;
+        private int i = 56;
         private void CorrectCollectibleCollected()
         {
             _selectedItem.transform.SetParent(_playerPlateTransform);
@@ -124,6 +124,7 @@ namespace Player
             if(_collectedItems.Count == 1)
             {
                 _selectedItem.GetComponent<FollowParent>().SetFollowTransform(_playerPlateTransform);
+                _selectedItem.GetComponent<FollowParent>().SetDampening(i);
             }
             if (_collectedItems.Count > 1)
             {

@@ -5,9 +5,9 @@ namespace Collectibles
     public class FollowParent : MonoBehaviour
     {
         [SerializeField] private Transform _followTransform;
-        [SerializeField] private float swayStrength = 0.5f; 
-        [SerializeField] private float swaySpeed = 5f; 
-        [SerializeField] private float dampening = 2f; 
+        [SerializeField] private float _swayStrength = 0.5f; 
+        [SerializeField] private float _swaySpeed = 5f; 
+        [SerializeField] private float _dampening = 2f; 
         
         private Vector3 _baseLocalPosition; 
         private bool _basePositionSet;
@@ -36,9 +36,9 @@ namespace Collectibles
             Vector3 parentMovement = _followTransform.position - _lastParentPosition;
             float horizontalMovement = parentMovement.x;
             
-            _swayOffset += -horizontalMovement * swayStrength;
+            _swayOffset += -horizontalMovement * _swayStrength;
             
-            _swayOffset = Mathf.Lerp(_swayOffset, 0f, Time.fixedDeltaTime * dampening);
+            _swayOffset = Mathf.Lerp(_swayOffset, 0f, Time.fixedDeltaTime * _dampening);
             
             Vector3 currentPos = transform.localPosition;
             Vector3 targetPosition = new Vector3(
@@ -48,7 +48,7 @@ namespace Collectibles
             );
             
             transform.localPosition = new Vector3(
-                Mathf.Lerp(currentPos.x, targetPosition.x, Time.fixedDeltaTime * swaySpeed),
+                Mathf.Lerp(currentPos.x, targetPosition.x, Time.fixedDeltaTime * _swaySpeed),
                 _baseLocalPosition.y, 
                 _baseLocalPosition.z  
             );
@@ -73,12 +73,12 @@ namespace Collectibles
 
 		public void SetSwayStrength(float strength)
         {
-            swayStrength = strength;
+            _swayStrength = strength;
         }
         
         public void SetDampening(float value)
         {
-            dampening = value;
+            _dampening = value;
         }
 
     }
