@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -273,9 +273,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _followTransform: {fileID: 1870192228}
-  swayStrength: 0.5
-  swaySpeed: 5
-  dampening: 2
+  _swayStrength: 0.5
+  _swaySpeed: 5
+  _dampening: 2
 --- !u!1 &404261198
 GameObject:
   m_ObjectHideFlags: 0
@@ -324,9 +324,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _followTransform: {fileID: 624199889}
-  swayStrength: 0.5
-  swaySpeed: 5
-  dampening: 2
+  _swayStrength: 0.2
+  _swaySpeed: 2
+  _dampening: 2
 --- !u!65 &404261201
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -538,9 +538,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _followTransform: {fileID: 212835515}
-  swayStrength: 0.5
-  swaySpeed: 5
-  dampening: 2
+  _swayStrength: 0.1
+  _swaySpeed: 1
+  _dampening: 2
 --- !u!65 &624199891
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -754,9 +754,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _followTransform: {fileID: 404261199}
-  swayStrength: 0.5
-  swaySpeed: 5
-  dampening: 2
+  _swayStrength: 0.3
+  _swaySpeed: 3
+  _dampening: 2
 --- !u!65 &1569070648
 BoxCollider:
   m_ObjectHideFlags: 0

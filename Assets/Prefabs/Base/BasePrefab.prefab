@@ -310,10 +310,9 @@ GameObject:
   - component: {fileID: 2508272718264019029}
   - component: {fileID: 1737625954647809868}
   - component: {fileID: 4798059432029161118}
-  - component: {fileID: 8857778979608074716}
   - component: {fileID: 9047793027548385538}
   - component: {fileID: 3754716808244319870}
-  - component: {fileID: 7110635250491544611}
+  - component: {fileID: 8857778979608074716}
   m_Layer: 0
   m_Name: Plate
   m_TagString: Untagged
@@ -413,21 +412,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &8857778979608074716
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 466800402872039507}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4bce19bf20e4a26b9221ad97a78de33, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _collectibleType: 0
-  _currentColorType: 0
-  _currentColorMaterial: {fileID: 0}
 --- !u!65 &9047793027548385538
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -476,7 +460,7 @@ ParentConstraint:
   m_Sources:
   - sourceTransform: {fileID: 972233283628732278}
     weight: 1
---- !u!114 &7110635250491544611
+--- !u!114 &8857778979608074716
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -485,9 +469,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 466800402872039507}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d00d829afcc47ce9f8090092182193b, type: 3}
+  m_Script: {fileID: 11500000, guid: d4bce19bf20e4a26b9221ad97a78de33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _collectibleType: 0
+  _currentColorType: 0
+  _currentColorMaterial: {fileID: 0}
   _followTransform: {fileID: 972233283628732278}
   _swayStrength: 0.3
   _swaySpeed: 25

@@ -115,27 +115,27 @@ namespace Player
         }
 
         // This method is called when a collectible is collected correctly
-        private int i = 56;
+        private float streng = .1f;
+        private float speed = 1f;
         private void CorrectCollectibleCollected()
         {
             _selectedItem.transform.SetParent(_playerPlateTransform);
             _scaleMultiplier *= (_selectedItem.transform.localScale.y + _collectedItems[^1].transform.localScale.y) / 2;
 
+            // Collectible follow settings
             if(_collectedItems.Count == 1)
             {
-                _selectedItem.GetComponent<FollowParent>().SetFollowTransform(_playerPlateTransform);
-                _selectedItem.GetComponent<FollowParent>().SetDampening(i);
+                _selectedItem.SetFollowSettings(_playerPlateTransform, streng, speed);
             }
             if (_collectedItems.Count > 1)
             {
-                _selectedItem.GetComponent<FollowParent>().SetFollowTransform(_collectedItems[^1].transform);
-                _selectedItem.GetComponent<FollowParent>().SetDampening(i);
-                i--;
+                streng = Mathf.Clamp(streng + .1f,0.1f, 2.5f);
+                speed = Mathf.Clamp(speed + .1f,0.1f, 2.5f);
+                _selectedItem.SetFollowSettings(_collectedItems[^1].transform, streng, speed);
+                
             }
-
             _selectedItem.transform.localPosition = new Vector3(0, _collectedItems[^1].transform.localPosition.y + _scaleMultiplier, 0);
-    
-            _selectedItem.GetComponent<FollowParent>().UpdateBasePosition();
+            _selectedItem.UpdateBasePosition();
     
             _collectedItems.Add(_selectedItem);
 
@@ -225,9 +225,10 @@ namespace Player
 
             GameManager.Instance.SetActiveBonusUI(true);
             
+            // Disable follow for all collected items
             foreach (var item in _collectedItems)
             {
-                item.GetComponent<FollowParent>().enabled = false;
+                item.DisableFollow();
             }
         }
 
