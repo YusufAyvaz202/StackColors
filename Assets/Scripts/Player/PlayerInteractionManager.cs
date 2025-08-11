@@ -19,10 +19,14 @@ namespace Player
         private List<Collectible> _collectedItems;
         private Collectible _selectedItem;
         private ColorType _currentColorType;
+        private Material _tempColorMaterial;
         private bool _isFirstPick = true;
         private int _fewerModeCount;
-
-        private Material _tempColorMaterial;
+        
+        [Header("Follow Settings")]
+        private float _followStrength = .1f;
+        private float _followSpeed = 1f;
+        private float _followDamp = 15f;
 
         /// <summary>
         /// Awake, Start, Update, and other Unity lifecycle methods.
@@ -49,7 +53,7 @@ namespace Player
             if (gameState != GameState.Playing && gameState != GameState.FewerMode) return;
             if (_selectedItem != null)
             {
-                if (_selectedItem.gameObject == other.gameObject) return;
+                if(_selectedItem.gameObject == other.gameObject) return;
             }
 
             if (other.TryGetComponent(out ICollectible collectible))
@@ -76,7 +80,7 @@ namespace Player
                         FewerModeManager.Instance.ChangeFewerModeMaterial();
                     }
 
-                    SetColorCollectedItems(_tempColorMaterial);
+                    SetColorAllCollectedItems(_tempColorMaterial);
                     _currentColorType = colorType;
                     break;
                 case CollectibleType.BonusCollectorStart:
@@ -114,9 +118,7 @@ namespace Player
             }
         }
 
-        // This method is called when a collectible is collected correctly
-        private float streng = .1f;
-        private float speed = 1f;
+        
         private void CorrectCollectibleCollected()
         {
             _selectedItem.transform.SetParent(_playerPlateTransform);
@@ -125,14 +127,13 @@ namespace Player
             // Collectible follow settings
             if(_collectedItems.Count == 1)
             {
-                _selectedItem.SetFollowSettings(_playerPlateTransform, streng, speed);
+                _selectedItem.SetFollowSettings(_playerPlateTransform, _followStrength, _followSpeed, _followDamp);
             }
             if (_collectedItems.Count > 1)
             {
-                streng = Mathf.Clamp(streng + .1f,0.1f, 2.5f);
-                speed = Mathf.Clamp(speed + .1f,0.1f, 2.5f);
-                _selectedItem.SetFollowSettings(_collectedItems[^1].transform, streng, speed);
-                
+                _followStrength = Mathf.Clamp(_followStrength + .1f,0.1f, 3f);
+                _followSpeed = Mathf.Clamp(_followSpeed + .1f,0.1f, 3f);
+                _selectedItem.SetFollowSettings(_collectedItems[^1].transform, _followStrength, _followSpeed, _followDamp);
             }
             _selectedItem.transform.localPosition = new Vector3(0, _collectedItems[^1].transform.localPosition.y + _scaleMultiplier, 0);
             _selectedItem.UpdateBasePosition();
@@ -140,8 +141,8 @@ namespace Player
             _collectedItems.Add(_selectedItem);
 
             _scaleMultiplier = 1f;
-            IncreaseFewerModeCount();
 
+            IncreaseFewerModeCount();
             _playerMovementController.IncreaseForwardSpeed(.25f);
         }
 
@@ -161,12 +162,16 @@ namespace Player
 
             _playerMovementController.ResetForwardSpeed();
             ResetFewerMode();
+            
+            // Follow settings
+            _followStrength = Mathf.Clamp(_followStrength - .1f, 0.1f, 2.5f);
+            _followSpeed = Mathf.Clamp(_followSpeed - .1f, 0.1f,2.5f);
         }
 
         #endregion
 
         // Sets the color of all collected items to the specified color
-        private void SetColorCollectedItems(Material colorMaterial)
+        private void SetColorAllCollectedItems(Material colorMaterial)
         {
             if (_collectedItems.Count <= 1) return;
 
@@ -188,7 +193,7 @@ namespace Player
             _fewerModeCount++;
             EventManager.OnFewerModeChanged?.Invoke(_fewerModeCount);
 
-            if (_fewerModeCount >= Conts.FewerMode.FewerModeCount)
+            if (_fewerModeCount >= Conts.FewerMode.FEWER_MODE_COUNT)
             {
                 ResetFewerModeCount();
                 FewerModeManager.Instance.SetFewerModeMaterial(_tempColorMaterial, _currentColorType);

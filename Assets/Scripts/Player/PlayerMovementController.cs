@@ -15,6 +15,8 @@ namespace Player
         [SerializeField] private float _horizontalSpeed = 5f;
         [SerializeField] private float _currentForwardSpeed = 5f;
         private float baseForwardSpeed;
+        
+        
 
         /// <summary>
         /// Unity lifecycle methods for initialization and updates.

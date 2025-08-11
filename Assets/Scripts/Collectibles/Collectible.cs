@@ -50,6 +50,7 @@ namespace Collectibles
 
         private void Start()
         {
+            
             if (_followTransform != null)
             {
                 _lastParentPosition = _followTransform.position;
@@ -58,6 +59,8 @@ namespace Collectibles
 
         private void FixedUpdate()
         {
+            
+            
             Follow();
         }
 
@@ -136,7 +139,6 @@ namespace Collectibles
         }
 
         #endregion
-        
 
         #region Helper Methods
         
@@ -145,11 +147,12 @@ namespace Collectibles
             return _currentColorMaterial;
         }
 
-        public void SetFollowSettings(Transform followTransform, float swayStrength, float swaySpeed)
+        public void SetFollowSettings(Transform followTransform, float swayStrength, float swaySpeed, float dampening)
         {
             _followTransform = followTransform;
             _swayStrength = swayStrength;
             _swaySpeed = swaySpeed;
+            _dampening = dampening;
             if (_followTransform != null)
             {
                 _lastParentPosition = _followTransform.position;

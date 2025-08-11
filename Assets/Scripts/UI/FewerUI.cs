@@ -28,7 +28,7 @@ namespace UI
         private void SetFewerSliderValue(float value)
         {
             _fewerSlider.value = value;
-            if (Mathf.Approximately(_fewerSlider.value, Conts.FewerMode.FewerModeCount))
+            if (Mathf.Approximately(_fewerSlider.value, Conts.FewerMode.FEWER_MODE_COUNT))
             {
                 FewerModeActive();
             }

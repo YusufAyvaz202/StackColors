@@ -36,7 +36,7 @@ namespace Managers
         public void FewerModeActivate()
         {
             ChangeFewerModeMaterial();
-            Invoke(nameof(FewerModeDeactivate), Conts.FewerMode.FewerModeDuration);
+            Invoke(nameof(FewerModeDeactivate), Conts.FewerMode.FEWER_MODE_DURATION);
         }
         
         public void ChangeFewerModeMaterial()

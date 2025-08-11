@@ -53,7 +53,7 @@ MeshRenderer:
   m_GameObject: {fileID: 8682770335419278977}
   m_Enabled: 1
   m_CastShadows: 0
-  m_ReceiveShadows: 1
+  m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
   m_MotionVectors: 1
@@ -122,6 +122,10 @@ MonoBehaviour:
   _collectibleType: 1
   _currentColorType: 3
   _currentColorMaterial: {fileID: 2100000, guid: a3469dc21dc19ff4890383fedf2f13a5, type: 2}
+  _followTransform: {fileID: 0}
+  _swayStrength: 0.5
+  _swaySpeed: 5
+  _dampening: 2
 --- !u!54 &6197070366636364089
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -32,7 +32,9 @@ namespace Player
         
         private void IncreaseBonus()
         {
-            if(GameManager.Instance.GetCurrentGameState() != GameState.Playing) return;
+            GameState currentGameState = GameManager.Instance.GetCurrentGameState();
+            if(currentGameState != GameState.Playing && currentGameState != GameState.FewerMode) return;
+            
             _totalBonus += 0.2f;
         }
 

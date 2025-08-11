@@ -16,8 +16,8 @@
         
         public struct FewerMode
         {
-            public const int FewerModeCount = 15;
-            public const float FewerModeDuration = 5f;
+            public const int FEWER_MODE_COUNT = 15;
+            public const float FEWER_MODE_DURATION = 5f;
         }
        
     }
