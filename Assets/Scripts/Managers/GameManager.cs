@@ -119,11 +119,6 @@ namespace Managers
 
         #region Helper Methods
 
-        public GameState GetCurrentGameState()
-        {
-            return _currentGameState;
-        }
-
         public int GetPlayerScore()
         {
             return (int)_playerScore;

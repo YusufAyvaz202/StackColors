@@ -21,6 +21,7 @@ namespace Player
         
         [Header("Settings")]
         private bool isStarted;
+        private bool _canMove;
         
         #region Unity Methods
         private void Awake()
@@ -31,11 +32,13 @@ namespace Player
         private void OnEnable()
         {
             StartActions();
+            EventManager.OnGameStateChanged += GameStateChanged;
         }
 
         private void OnDisable()
         {
             StopActions();
+            EventManager.OnGameStateChanged -= GameStateChanged;
         }
         
         #endregion
@@ -48,15 +51,27 @@ namespace Player
                 GameManager.Instance.ChangeGameState(GameState.Playing);
                 _playerAnimationController.SetRunAnimation();
             }
-            
-            GameState gameState = GameManager.Instance.GetCurrentGameState();
-            if (gameState != GameState.Playing && gameState != GameState.FewerMode) return;
+
+            if (!_canMove) return;
             _moveInput = context.ReadValue<Vector2>();
         }
+        
         
         private void BonusActionOnStarted(InputAction.CallbackContext context)
         {
             EventManager.OnBonusActionPerformed?.Invoke();
+        }
+        
+        private void GameStateChanged(GameState currentGameState)
+        {
+            if (currentGameState == GameState.Playing || currentGameState == GameState.FewerMode)
+            {
+                _canMove = true;
+            }
+            else
+            {
+                _canMove = false;
+            }
         }
 
         #region Initialize & Cleanup

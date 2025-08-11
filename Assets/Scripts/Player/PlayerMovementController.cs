@@ -1,4 +1,5 @@
-﻿using Managers;
+﻿using System;
+using Managers;
 using Misc;
 using UnityEngine;
 
@@ -15,9 +16,8 @@ namespace Player
         [SerializeField] private float _horizontalSpeed = 5f;
         [SerializeField] private float _currentForwardSpeed = 5f;
         private float baseForwardSpeed;
+        private bool _canMove;
         
-        
-
         /// <summary>
         /// Unity lifecycle methods for initialization and updates.
         /// </summary>
@@ -28,6 +28,12 @@ namespace Player
         {
             GetComponents();
             baseForwardSpeed = _currentForwardSpeed;
+           
+        }
+
+        private void OnEnable()
+        {
+            EventManager.OnGameStateChanged += OnGameStateChanged;
         }
 
         private void FixedUpdate()
@@ -35,12 +41,16 @@ namespace Player
             Move();
         }
 
+        private void OnDisable()
+        {
+            EventManager.OnGameStateChanged -= OnGameStateChanged;
+        }
+
         #endregion
 
         private void Move()
         {
-            GameState gameState = GameManager.Instance.GetCurrentGameState(); 
-            if (gameState != GameState.Playing && gameState != GameState.FewerMode) return;
+            if (!_canMove) return;
 
             Vector2 moveInput = _playerInputController.MoveInput;
             Vector3 movementDirection = new Vector3(moveInput.x * _horizontalSpeed, 0, _currentForwardSpeed);
@@ -48,6 +58,18 @@ namespace Player
             
             // Clamp the player's position to prevent going out of bounds
             _rigidbody.position = new Vector3(Mathf.Clamp(_rigidbody.position.x, -4, 4), _rigidbody.position.y, _rigidbody.position.z);
+        }
+        
+        private void OnGameStateChanged(GameState currentGameState)
+        {
+            if (currentGameState == GameState.Playing || currentGameState == GameState.FewerMode)
+            {
+                _canMove = true;
+            }
+            else
+            {
+                _canMove = false;
+            }
         }
 
         #region Helper Methods

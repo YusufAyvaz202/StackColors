@@ -22,6 +22,8 @@ namespace Player
         private Color _tempColorMaterial;
         private bool _isFirstPick = true;
         private int _fewerModeCount;
+        private bool _canCheckTriggers;
+        private bool _isFewerModeActive;
         
         [Header("Follow Settings")]
         private float _followStrength = .1f;
@@ -40,17 +42,46 @@ namespace Player
             GetComponents();
         }
 
+        private void OnEnable()
+        {
+            EventManager.OnGameStateChanged += OnGameStateChanged;
+        }
+        
+        private void OnDisable()
+        {
+            EventManager.OnGameStateChanged += OnGameStateChanged;
+        }
+
         private void OnTriggerEnter(Collider other)
         {
             CheckTriggers(other);
         }
 
         #endregion
+        
+        private void OnGameStateChanged(GameState currentGameState)
+        {
+            if (currentGameState == GameState.Playing)
+            {
+                _canCheckTriggers = true;
+                _isFewerModeActive = false;
+            }
+            else if (currentGameState == GameState.FewerMode)
+            {
+                _canCheckTriggers = true;
+                _isFewerModeActive = true;
+            }
+            else
+            {
+                _canCheckTriggers = false;
+            }
+        }
+
 
         private void CheckTriggers(Collider other)
         {
-            GameState gameState = GameManager.Instance.GetCurrentGameState();
-            if (gameState != GameState.Playing && gameState != GameState.FewerMode) return;
+            if (!_canCheckTriggers) return;
+            
             if (_selectedItem != null)
             {
                 if(_selectedItem.gameObject == other.gameObject) return;
@@ -74,7 +105,7 @@ namespace Player
                     break;
                 case CollectibleType.ColorChanger:
                     // If the game is in fewer mode & we pass a color changer, we set the fewer mode material.
-                    if (GameManager.Instance.GetCurrentGameState() == GameState.FewerMode)
+                    if (_isFewerModeActive)
                     {
                         FewerModeManager.Instance.SetFewerModeMaterial(_tempColorMaterial, colorType);
                         FewerModeManager.Instance.ChangeFewerModeMaterial();
@@ -186,7 +217,7 @@ namespace Player
 
         private void IncreaseFewerModeCount()
         {
-            if (GameManager.Instance.GetCurrentGameState() == GameState.FewerMode) return;
+            if (_isFewerModeActive) return;
 
             _fewerModeCount++;
             EventManager.OnFewerModeChanged?.Invoke(_fewerModeCount);

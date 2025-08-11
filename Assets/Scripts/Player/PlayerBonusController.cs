@@ -7,13 +7,15 @@ namespace Player
     public class PlayerBonusController : MonoBehaviour
     {
         [Header("Settings")]
-        private float _totalBonus;
+        public float _totalBonus;
+        private bool _canIncreaseBonus;
         
         #region Unity Methods
 
         private void OnEnable()
         {
             EventManager.OnBonusActionPerformed += IncreaseBonus;
+            EventManager.OnGameStateChanged += GameStateChanged;
         }
         
         private void OnDisable()
@@ -32,10 +34,20 @@ namespace Player
         
         private void IncreaseBonus()
         {
-            GameState currentGameState = GameManager.Instance.GetCurrentGameState();
-            if(currentGameState != GameState.Playing && currentGameState != GameState.FewerMode) return;
-            
+            if(!_canIncreaseBonus) return;
             _totalBonus += 0.2f;
+        }
+
+        private void GameStateChanged(GameState currentGameState)
+        {
+            if (currentGameState == GameState.Playing || currentGameState == GameState.FewerMode)
+            {
+                _canIncreaseBonus = true;
+            }
+            else
+            {
+                _canIncreaseBonus = false;
+            }
         }
 
         #region Helper Methods
