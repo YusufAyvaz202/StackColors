@@ -268,7 +268,7 @@ namespace Player
 
         private void BonusCollectorEnd()
         {
-            EventManager.ChangeCameraTarget?.Invoke(_collectedItems[^1].transform);
+            EventManager.ChangeCameraTarget?.Invoke();
             
             float bonus = _playerBonusController.GetTotalBonus();
             for (int i = 0; i < _collectedItems.Count; i++)

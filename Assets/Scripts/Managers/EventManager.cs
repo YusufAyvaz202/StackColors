@@ -21,6 +21,6 @@ namespace Managers
         // Event triggered when a bonus action is performed.
         public static Action OnBonusActionPerformed;
         
-        public static Action<Transform> ChangeCameraTarget;
+        public static Action ChangeCameraTarget;
     }
 }
