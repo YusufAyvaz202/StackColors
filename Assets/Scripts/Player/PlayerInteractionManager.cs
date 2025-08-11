@@ -19,7 +19,7 @@ namespace Player
         private List<Collectible> _collectedItems;
         private Collectible _selectedItem;
         private ColorType _currentColorType;
-        private Material _tempColorMaterial;
+        private Color _tempColorMaterial;
         private bool _isFirstPick = true;
         private int _fewerModeCount;
         
@@ -172,7 +172,7 @@ namespace Player
         #endregion
 
         // Sets the color of all collected items to the specified color
-        private void SetColorAllCollectedItems(Material colorMaterial)
+        private void SetColorAllCollectedItems(Color colorMaterial)
         {
             if (_collectedItems.Count <= 1) return;
 
@@ -223,8 +223,8 @@ namespace Player
             _playerMovementController.DisableHorizontalMovement();
 
             // When the bonus collector starts, the player plate is moved to the center of the screen.
-            Vector3 resetXPosition = new Vector3(0, transform.position.y, transform.position.z);
-            transform.position = Vector3.Slerp(transform.position, resetXPosition, 2f);
+            /*Vector3 resetXPosition = new Vector3(0, transform.position.y, transform.position.z);
+            transform.position = Vector3.Slerp(transform.position, resetXPosition, 2f);*/
 
             GameManager.Instance.SetActiveBonusUI(true);
             

@@ -12,7 +12,7 @@ namespace Managers
         
         //Event for Fewer Modes
         public static Action<float> OnFewerModeChanged;
-        public static Action<Material, ColorType> OnFewerModeActive;
+        public static Action<Color, ColorType> OnFewerModeActive;
         public static Action OnFewerModeDisable;
         
         // Event triggered when the game state changes.

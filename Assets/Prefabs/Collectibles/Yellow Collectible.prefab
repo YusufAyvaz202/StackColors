@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a3469dc21dc19ff4890383fedf2f13a5, type: 2}
+  - {fileID: 2100000, guid: 9d1b2eb591da57d4dab410aa2fe0e673, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -121,7 +121,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _collectibleType: 0
   _currentColorType: 3
-  _currentColorMaterial: {fileID: 2100000, guid: a3469dc21dc19ff4890383fedf2f13a5, type: 2}
+  _currentColorMaterial: {r: 0.9061289, g: 1, b: 0, a: 1}
   _followTransform: {fileID: 0}
   _swayStrength: 0.5
   _swaySpeed: 5

@@ -9,7 +9,7 @@ namespace Managers
         public static FewerModeManager Instance;
 
         [Header("Settings")]
-        private Material _material;
+        private Color _material;
         private ColorType _colorType;
 
         #region Unity Methods
@@ -49,7 +49,7 @@ namespace Managers
         
         #region Helper Methods
 
-        public void SetFewerModeMaterial(Material material, ColorType colorType)
+        public void SetFewerModeMaterial(Color material, ColorType colorType)
         {
             _material = material;
             _colorType = colorType;

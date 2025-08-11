@@ -17,9 +17,10 @@ namespace Collectibles
         [Header("Settings")]
         [SerializeField] private CollectibleType _collectibleType;
         [SerializeField] private ColorType _currentColorType;
-        [SerializeField] private Material _currentColorMaterial;
+        [SerializeField] private Color _currentColorMaterial;
 
-        private Material _colorMaterial;
+        private MaterialPropertyBlock _materialPropertyBlock;
+        private Color _colorMaterial;
         private ColorType _colorType;
         private bool _isCollected;
 
@@ -55,6 +56,8 @@ namespace Collectibles
             {
                 _lastParentPosition = _followTransform.position;
             }
+            
+            SetColor(_currentColorMaterial);
         }
 
         private void OnEnable()
@@ -132,7 +135,7 @@ namespace Collectibles
 
         #region Fewer Mode
 
-        private void ReadyForFewerMode(Material colorMaterial, ColorType colorType)
+        private void ReadyForFewerMode(Color colorMaterial, ColorType colorType)
         {
             if (_collectibleType != CollectibleType.Color) return;
             SetColor(colorMaterial);
@@ -152,7 +155,7 @@ namespace Collectibles
 
         #region Helper Methods
         
-        public Material GetColorMaterial()
+        public Color GetColorMaterial()
         {
             return _currentColorMaterial;
         }
@@ -179,10 +182,14 @@ namespace Collectibles
         {
             isFollowing = false;
         }
-
-        public void SetColor(Material colorMaterial)
+        
+        public void SetColor(Color colorMaterial)
         {
-            _meshRenderer.sharedMaterial = colorMaterial;
+            if (_collectibleType != CollectibleType.Color) return;
+            
+            _materialPropertyBlock ??= new MaterialPropertyBlock();
+            _materialPropertyBlock.SetColor("_Color", colorMaterial);
+            _meshRenderer.SetPropertyBlock(_materialPropertyBlock);
         }
 
         public void SetIsCollected(bool isCollected)

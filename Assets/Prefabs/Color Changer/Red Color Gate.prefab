@@ -121,7 +121,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _collectibleType: 1
   _currentColorType: 0
-  _currentColorMaterial: {fileID: 2100000, guid: fefda52aa0f55f04486b423a7b3c4709, type: 2}
+  _currentColorMaterial: {r: 1, g: 0, b: 0, a: 1}
   _followTransform: {fileID: 0}
   _swayStrength: 0.5
   _swaySpeed: 5

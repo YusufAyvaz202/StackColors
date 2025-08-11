@@ -7,7 +7,7 @@ namespace Interface
     public interface ICollectible
     {
         void Collect(Action<ColorType, CollectibleType> onCollected);
-        Material GetColorMaterial();
+        Color GetColorMaterial();
                 
     }
 }
