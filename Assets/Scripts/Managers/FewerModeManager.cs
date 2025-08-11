@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using Collectibles;
-using Misc;
+﻿using Misc;
 using UnityEngine;
 
 namespace Managers
@@ -9,9 +7,6 @@ namespace Managers
     {
         [Header("Singleton Instance")]
         public static FewerModeManager Instance;
-
-        [Header("References")] 
-        [SerializeField] private List<Collectible> _collectibles = new List<Collectible>();
 
         [Header("Settings")]
         private Material _material;
@@ -41,32 +36,19 @@ namespace Managers
         
         public void ChangeFewerModeMaterial()
         {
-            foreach (var collectible in _collectibles)
-            {
-                collectible.ReadyForFewerMode(_material, _colorType);
-            }
+            EventManager.OnFewerModeActive?.Invoke(_material, _colorType);
         }
         
         private void FewerModeDeactivate()
         {
             EventManager.OnFewerModeChanged?.Invoke(0f);
             GameManager.Instance.ChangeGameState(GameState.Playing);
-            foreach (var collectible in _collectibles)
-            {
-                collectible.DisableFewerMode();
-            }
+           
+            EventManager.OnFewerModeDisable?.Invoke();
         }
         
         #region Helper Methods
 
-        public void RemoveCollectible(Collectible collectible)    
-        {
-            if (_collectibles.Contains(collectible))
-            {
-                _collectibles.Remove(collectible);
-            }
-        }
-        
         public void SetFewerModeMaterial(Material material, ColorType colorType)
         {
             _material = material;

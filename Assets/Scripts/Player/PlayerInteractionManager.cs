@@ -139,11 +139,12 @@ namespace Player
             _selectedItem.UpdateBasePosition();
     
             _collectedItems.Add(_selectedItem);
-
+            _selectedItem.SetIsCollected(true);
             _scaleMultiplier = 1f;
 
             IncreaseFewerModeCount();
             _playerMovementController.IncreaseForwardSpeed(.25f);
+            
         }
 
         // This method is called when a collectible is collected incorrectly
@@ -177,10 +178,7 @@ namespace Player
 
             foreach (var item in _collectedItems)
             {
-                if (item.TryGetComponent(out MeshRenderer meshRenderer))
-                {
-                    meshRenderer.material = colorMaterial;
-                }
+                item.SetColor(colorMaterial);
             }
         }
 

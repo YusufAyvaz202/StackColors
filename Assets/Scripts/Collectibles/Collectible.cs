@@ -21,6 +21,7 @@ namespace Collectibles
 
         private Material _colorMaterial;
         private ColorType _colorType;
+        private bool _isCollected;
 
         [Header("Follow Settings")]
         [SerializeField] private Transform _followTransform;
@@ -47,20 +48,23 @@ namespace Collectibles
 
             _rigidbody.isKinematic = true;
         }
-
+        
         private void Start()
         {
-            
             if (_followTransform != null)
             {
                 _lastParentPosition = _followTransform.position;
             }
         }
 
+        private void OnEnable()
+        {
+            EventManager.OnFewerModeActive += ReadyForFewerMode;
+            EventManager.OnFewerModeDisable += DisableFewerMode;
+        }
+
         private void FixedUpdate()
         {
-            
-            
             Follow();
         }
 
@@ -71,10 +75,12 @@ namespace Collectibles
             {
                 Destroy(gameObject);
             }
-            else if (_collectibleType == CollectibleType.Color)
-            {
-                FewerModeManager.Instance.RemoveCollectible(this);
-            }
+        }
+
+        private void OnDisable()
+        {
+            EventManager.OnFewerModeActive -= ReadyForFewerMode;
+            EventManager.OnFewerModeDisable -= DisableFewerMode;
         }
 
         #endregion
@@ -126,16 +132,20 @@ namespace Collectibles
 
         #region Fewer Mode
 
-        public void ReadyForFewerMode(Material colorMaterial, ColorType colorType)
+        private void ReadyForFewerMode(Material colorMaterial, ColorType colorType)
         {
-            _meshRenderer.material = colorMaterial;
+            if (_collectibleType != CollectibleType.Color) return;
+            SetColor(colorMaterial);
             _currentColorType = colorType;
         }
 
-        public void DisableFewerMode()
+        private void DisableFewerMode()
         {
-            _meshRenderer.material = _colorMaterial;
-            _currentColorType = _colorType;
+            if (!_isCollected && _collectibleType == CollectibleType.Color)
+            {
+                SetColor(_colorMaterial);
+                _currentColorType = _colorType;
+            }
         }
 
         #endregion
@@ -168,6 +178,16 @@ namespace Collectibles
         public void DisableFollow()
         {
             isFollowing = false;
+        }
+
+        public void SetColor(Material colorMaterial)
+        {
+            _meshRenderer.sharedMaterial = colorMaterial;
+        }
+
+        public void SetIsCollected(bool isCollected)
+        {
+            _isCollected = isCollected;
         }
         
         #endregion
